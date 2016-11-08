@@ -1,6 +1,7 @@
 GameSlam
 
-Dru date: December 12
+Due date: December 12
+
 
 Team:
 - Bonny
