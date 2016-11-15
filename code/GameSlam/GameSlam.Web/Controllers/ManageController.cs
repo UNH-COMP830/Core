@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GameSlam.Web.Models;
+using GameSlam.Infrastructure.Repositories;
 
 namespace GameSlam.Web.Controllers
 {
@@ -15,15 +16,15 @@ namespace GameSlam.Web.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly IRepository repository;
 
         public ManageController()
         {
         }
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(IRepository repository)
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
+            this.repository = repository;
         }
 
         public ApplicationSignInManager SignInManager

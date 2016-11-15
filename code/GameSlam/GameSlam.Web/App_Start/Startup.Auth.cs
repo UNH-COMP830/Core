@@ -4,8 +4,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
-using Owin;
-using GameSlam.Web.Models;
+using Owin;                           
+using GameSlam.Infrastructure.Repositories;
+using GameSlam.Core.Models;
 
 namespace GameSlam.Web
 {

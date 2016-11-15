@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using GameSlam.Web.Models;
+using GameSlam.Infrastructure.Repositories;
+using GameSlam.Core.Models;
 
 namespace GameSlam.Web
 {
