@@ -1,6 +1,7 @@
 body {
   font-family: "Lato", sans-serif;
   line-height: 2;
+  color: #555555;
 }
 
 /* global */
@@ -156,6 +157,10 @@ body {
 
 
 /* upload */
+
+.upload {
+
+}
 
 .upload input {
   color: #ff9800;
