@@ -159,7 +159,9 @@ body {
 /* upload */
 
 .upload {
-
+  border-bottom: 1px solid #555555;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .upload input {
