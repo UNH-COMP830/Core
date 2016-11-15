@@ -155,6 +155,11 @@ body {
 /* search */
 
 
+/* upload */
+
+.upload input {
+  color: #ff9800;
+}
 
 
 
