@@ -107,6 +107,13 @@ body {
   max-width: 600px;
 }
 
+.description textarea {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  margin-top: 10px;
+}
+
 .description h3 {
   color: #ff9800;
   padding-bottom: 20px;
