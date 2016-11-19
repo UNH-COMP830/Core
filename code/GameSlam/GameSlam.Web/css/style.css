@@ -146,10 +146,20 @@ body {
   background-color: black;
   opacity: 0.9;
   transition: 0.25s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  text-align: center;
 }
 
 .games .game:hover {
   opacity: 1;
+}
+
+.games .game h3 {
+  text-decoration: none;
+  color: white;
 }
 
 
