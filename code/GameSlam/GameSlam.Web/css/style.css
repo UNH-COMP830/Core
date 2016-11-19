@@ -132,7 +132,7 @@ body {
   font-family: "Lato", sans-serif;
   box-sizing : border-box;
   width: 100%;
-  
+
 }
 
 .description input {
@@ -213,7 +213,7 @@ body {
 /* upload */
 
 .upload {
-  border-bottom: 1px solid #555555;
+  border-bottom: 1px solid #a9a9a9;
   padding-top: 10px;
   padding-bottom: 10px;
 }
