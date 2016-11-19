@@ -2,6 +2,12 @@ using System;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using GameSlam.Infrastructure.Repositories;
+using GameSlam.Services;
+using Microsoft.Owin.Security;
+using System.Web;
+using GameSlam.Core.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace GameSlam.Web.App_Start
 {
@@ -39,6 +45,20 @@ namespace GameSlam.Web.App_Start
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<IRepository, Repository>();
+            container.RegisterType<ApplicationSignInManager>();
+            container.RegisterType<ApplicationUserManager>();
+            //container.RegisterType<ApplicationRoleManager>();
+
+
+            ///http://tech.trailmax.info/2014/09/aspnet-identity-and-ioc-container-registration/
+            container.RegisterType<IAuthenticationManager>(
+                new InjectionFactory(c => HttpContext.Current.GetOwinContext().Authentication));
+
+            container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(
+                new InjectionConstructor(typeof(ApplicationDbContext)));
+
+            container.RegisterType<IRoleStore<IdentityRole, string>, RoleStore<IdentityRole, string, IdentityUserRole>>(
+                new InjectionConstructor(typeof(ApplicationDbContext)));
         }
     }
 }

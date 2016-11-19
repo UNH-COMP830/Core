@@ -15,10 +15,7 @@ namespace GameSlam.Web
     {
         protected void Application_Start()
         {
-            // store the default database values.
             
-
-
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

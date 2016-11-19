@@ -10,10 +10,31 @@ namespace GameSlam.Infrastructure.Repositories
     public class Repository : IRepository
     {
         ApplicationDbContext db;
+        
 
         public Repository(ApplicationDbContext db)
         {
             this.db = db;
+        }
+
+        ~Repository()
+        {
+        //    if (disposing)
+        //    {
+        //        if (_userManager != null)
+        //        {
+        //            _userManager.Dispose();
+        //            _userManager = null;
+        //        }
+
+        //        if (_signInManager != null)
+        //        {
+        //            _signInManager.Dispose();
+        //            _signInManager = null;
+        //        }
+        //    }
+
+        //    base.Dispose(disposing);
         }
 
         public IQueryable<GameDetail> GetAllGames()
