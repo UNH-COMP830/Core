@@ -120,20 +120,20 @@ body {
 }
 
 ::-webkit-input-placeholder {
-  color: #ff9800;
+  color: #a9a9a9;
 }
 
 :-ms-input-placeholder {
-  color: #ff9800;
+  color: #a9a9a9;
 }
 
 ::-moz-placeholder {
-  color: #ff9800;
+  color: #a9a9a9;
   opacity: 1;
 }
 
 :-moz-placeholder {
-  color: #ff9800;
+  color: #a9a9a9;
   opacity: 1;
 }
 
@@ -254,7 +254,7 @@ body {
 }
 
 .upload input {
-  color: #555555;
+  color: #a9a9a9;
 }
 
 
