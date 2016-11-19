@@ -4,6 +4,26 @@ body {
   color: #555555;
 }
 
+.upload-button {
+  opacity: 0.5;
+  position: absolute;
+  right: 50px;
+  top: 50px;
+  z-index: 1000;
+  color: white;
+  text-decoration: none;
+  border: 1px solid white;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  transition: 0.25s ease;
+}
+
+.upload-button:hover {
+  opacity: 1;
+}
+
 /* global */
 
 .wrapper {
