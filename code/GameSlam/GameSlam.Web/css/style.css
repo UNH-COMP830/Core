@@ -157,7 +157,12 @@ body {
   opacity: 1;
 }
 
+.games .game:hover h3 {
+  display: block;
+}
+
 .games .game h3 {
+  display: none;
   text-decoration: none;
   color: white;
 }
