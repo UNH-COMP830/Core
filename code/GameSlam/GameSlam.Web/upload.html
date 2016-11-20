@@ -7,6 +7,7 @@
   <title>GameSlam</title>
   <meta name="description" content="100% free indie games">
   <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/animate.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
 
@@ -15,48 +16,45 @@
 
   <section class="hero">
     <div class="color"></div>
-    <div class="title">
-      <img src="images/logo.png" alt="GameSlam">
+    <div class="title animated bounceInDown">
+      <a href="index.html"><img src="images/logo.png" alt="GameSlam"></a>
       <h3>100% free indie games</h3>
     </div>
+    <a class="upload-button" href="upload.html">Submit Game</a>
   </section>
 
   <div class="wrapper description">
-    <h3>ABOUT THIS GAME</h3>
-    <textarea name="name" rows="16" cols="40"></textarea>
+    <h3>GENERAL INFORMATION</h3>
+    <input id="fields" type="name" name="game-name" placeholder="Title" required>
+    <input type="name" name="game-publisher" placeholder="Publisher" required>
+    <textarea name="game-description" rows="16" cols="40" placeholder="Description" required></textarea>
   </div>
 
   <div class="wrapper description">
     <h3>SCREENSHOTS</h3>
 
     <div class="upload">
-      <p>Screenshot</p>
-      <input type="file" name="screenshot01">
+      <input type="file" name="screenshot-1" required>
     </div>
 
     <div class="upload">
-      <p>Screenshot</p>
-      <input type="file" name="screenshot01">
+      <input type="file" name="screenshot-2" required>
     </div>
 
     <div class="upload">
-      <p>Screenshot</p>
-      <input type="file" name="screenshot01">
+      <input type="file" name="screenshot-3" required>
     </div>
 
     <div class="upload">
-      <p>Screenshot</p>
-      <input type="file" name="screenshot01">
+      <input type="file" name="screenshot-4" required>
     </div>
 
     <div class="upload">
-      <p>Screenshot</p>
-      <input type="file" name="screenshot01">
+      <input type="file" name="screenshot-5" required>
     </div>
 
     <div class="upload">
-      <p>Screenshot</p>
-      <input type="file" name="screenshot01">
+      <input type="file" name="screenshot-6" required>
     </div>
 
   </div>
@@ -65,25 +63,22 @@
     <h3>DOWNLOADS</h3>
 
     <div class="upload">
-      <p>Download for Windows</p>
-      <input type="file" name="screenshot01">
+      <input type="file" name="download-windows" required>
     </div>
 
     <div class="upload">
-      <p>Download for Linux</p>
-      <input type="file" name="screenshot01">
+      <input type="file" name="download-linux" required>
     </div>
 
     <div class="upload">
-      <p>Download for OS X</p>
-      <input type="file" name="screenshot01">
+      <input type="file" name="download-osx" required>
     </div>
-    
+
   </div>
 
   <section class="wrapper footer">
-    <div><a href="">SUBMIT FOR REVIEW</a></div>
-    <div><a href="">CANCEL</a></div>
+    <div class="submit-button"><a href="">Submit for Review</a></div>
+    <div class="submit-button"><a href="index.html">Cancel</a></div>
   </section>
 
 </body>
