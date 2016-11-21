@@ -16,6 +16,7 @@
             <h3>100% free indie games</h3>
         </div>
 
+        @Html.Partial("_LoginPartial")
         @Html.ActionLink("Submit Game", "Create", "Game", new { area = "" }, new { @class = "upload-button" })
     </section>
     @RenderBody()

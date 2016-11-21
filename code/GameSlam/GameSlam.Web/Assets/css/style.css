@@ -8,7 +8,7 @@ body {
   opacity: 0.5;
   position: absolute;
   right: 50px;
-  top: 50px;
+  top: 100px;
   z-index: 1000;
   color: white;
   text-decoration: none;
@@ -21,6 +21,103 @@ body {
 }
 
 .upload-button:hover {
+  opacity: 1;
+}
+
+
+.login-button {
+  opacity: 0.5;
+  position: absolute;
+  right: 50px;
+  top: 50px;
+  z-index: 1000;
+  color: white;
+  text-decoration: none;
+  border: 1px solid white;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  transition: 0.25s ease;
+}
+
+.login-button:hover {
+  opacity: 1;
+}       
+
+.register-button {
+  opacity: 0.5;
+  position: absolute;
+  right: 140px;
+  top: 50px;
+  z-index: 1000;
+  color: white;
+  text-decoration: none;
+  border: 1px solid white;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  transition: 0.25s ease;
+}
+
+.register-button:hover {
+  opacity: 1;
+}
+
+.authorized-manage-button {
+  opacity: 0.5;
+  position: absolute;
+  right: 150px;
+  top: 50px;
+  z-index: 1000;  
+  width: 180px;
+  color: white;
+  text-decoration: none;
+  border: 1px solid white;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  transition: 0.25s ease;
+}
+
+.authorized-manage-button:hover {
+  opacity: 1;
+}
+.authorized-form {
+  opacity: 0.5;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  z-index: 1000;
+  color: white;
+  text-decoration: none;
+  border: 1px solid white;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  transition: 0.25s ease;
+}
+.authorized-logout-button {
+  opacity: 0.5;
+  position: absolute;
+  right: 50px;
+  top: 50px;
+  width: 50px;
+  z-index: 1000;
+  color: white;
+  text-decoration: none;
+  border: 1px solid white;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  transition: 0.25s ease;
+}
+
+.authorized-logout-button:hover {
   opacity: 1;
 }
 
