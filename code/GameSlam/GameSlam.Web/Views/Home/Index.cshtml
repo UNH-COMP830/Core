@@ -1,32 +1,27 @@
 ﻿@{
-    ViewBag.Title = "Home Page - Amar, Chris and Bonny.The A Team!!";
+    ViewBag.Title = "GameSlam";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p>Amar, Chris and Bonny.The A Team!!</p>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<div class="wrapper search">
+    <input type="text" name="name" value="" placeholder="Search for games">
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<section class="wrapper games"> 
+    <div class="grid"> 
+        <a class="game" href="@Url.Action("Details", "Game", new { id = "1" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
+        <a class="game" href="@Url.Action("Details", "Game", new { id = "2" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
+        <a class="game" href="@Url.Action("Details", "Game", new { id = "3" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
+        <a class="game" href="@Url.Action("Details", "Game", new { id = "4" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
+        <a class="game" href="@Url.Action("Details", "Game", new { id = "5" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
+        <a class="game" href="@Url.Action("Details", "Game", new { id = "6" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
+        <a class="game" href="@Url.Action("Details", "Game", new { id = "7" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
+        <a class="game" href="@Url.Action("Details", "Game", new { id = "8" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
+        <a class="game" href="@Url.Action("Details", "Game", new { id = "9" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
+        <a class="game" href="@Url.Action("Details", "Game", new { id = "10" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
+        <a class="game" href="@Url.Action("Details", "Game", new { id = "11" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+</section>
+
+<section class="wrapper footer">
+    <h3>100% free indie games</h3>
+</section>

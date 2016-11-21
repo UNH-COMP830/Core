@@ -1,0 +1,43 @@
+﻿
+@{                              
+    ViewBag.RequestID = this.ViewContext.RouteData.Values["id"]; //RouteData.Values["id"];
+    ViewBag.Title = "GameSlam - View Game for ID = "+ ViewBag.RequestID;
+}
+
+<div class="wrapper description">
+    <h3>DESCRIPTION For id = @Html.Raw(this.ViewContext.RouteData.Values["id"])</h3>
+    <p>Melon Simulator is a chaotic, multiplayer (up to 4 players), first person melee combat game. Play as a member of the Melon Inc. Containment Unit, responding to a failed melon simulation. Work together with your teammates to beat your highscore, the longer you survive the harder it gets.</p>
+</div>
+
+<section class="wrapper games">
+    <div class="grid">
+        <a class="game" href=""><div><h3>Screenshot #1</h3></div></a>
+        <a class="game" href=""><div><h3>Screenshot #2</h3></div></a>
+        <a class="game" href=""><div><h3>Screenshot #3</h3></div></a>
+        <a class="game" href=""><div><h3>Screenshot #4</h3></div></a>
+        <a class="game" href=""><div><h3>Screenshot #5</h3></div></a>
+        <a class="game" href=""><div><h3>Screenshot #6</h3></div></a>
+    </div>
+</section>
+
+<div class="wrapper description">
+    <h3>DOWNLOADS</h3>
+
+    <div class="upload">
+        <a href="#">Download for Windows</a>
+    </div>
+
+    <div class="upload">
+        <a href="#">Download for Linux</a>
+    </div>
+
+    <div class="upload">
+        <a href="#">Download for OS X</a>
+    </div>
+
+</div>
+
+<section class="wrapper footer">
+    <h3>100% free indie games</h3>
+</section>
+
