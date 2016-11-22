@@ -8,6 +8,7 @@ namespace GameSlam.Web
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.UseCdn = true;
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Assets/js/jquery-{version}.js"));
 
@@ -26,6 +27,14 @@ namespace GameSlam.Web
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Assets/css/bootstrap.css",
                       "~/Assets/css/site.css"));
+                                
+            bundles.Add(new StyleBundle("~/Content/gameStyle").Include(
+                      "~/Assets/css/reset.css",
+                      "~/Assets/css/css/animate.css",
+                      "~/Assets/css/style.css"));
+
+            bundles.Add(new StyleBundle("~/Content/Images").Include(
+                      "~/Assets/images/logo.png"));
         }
     }
 }

@@ -1,22 +1,24 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
+    <div>Hiiiii</div>
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "authorized-form" }))
+    {                       
     @Html.AntiForgeryToken()
-
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+ 
+    <a href="javascript:document.getElementById('logoutForm').submit()" class="authorized-logout-button">Log off</a>
+     @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { @class = "authorized-manage-button", title = "Manage" })
+    
     }
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
+
+    @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { @class = "login-button", id = "loginLink" })
+    @Html.ActionLink("Register", "Register", "Account", new { area = "" }, new { @class = "register-button", id = "registerLink" })
+    @*<ul class="nav navbar-nav navbar-right">
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+    </ul>*@
 }
+
