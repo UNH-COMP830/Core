@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameSlam.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -20,26 +21,36 @@ namespace GameSlam.Web.Controllers
             return View();
         }
 
+        [Authorize]
         // GET: Game/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Game/Create
+                                                                             
+        // POST: Game/Create 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(UploadGameViewModel model)
         {
             try
             {
                 // TODO: Add insert logic here
+                //check if model is valid
+                if (ModelState.IsValid)
+                {
+                    return RedirectToAction("Index");
+                }
 
-                return RedirectToAction("Index");
             }
             catch
             {
                 return View();
             }
+
+            return View();
         }
 
         // GET: Game/Edit/5

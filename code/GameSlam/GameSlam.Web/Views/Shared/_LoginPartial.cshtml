@@ -3,7 +3,7 @@
 {
     <div>Hiiiii</div>
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "authorized-form" }))
-    {
+    {                       
     @Html.AntiForgeryToken()
  
     <a href="javascript:document.getElementById('logoutForm').submit()" class="authorized-logout-button">Log off</a>
@@ -21,3 +21,4 @@ else
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>*@
 }
+

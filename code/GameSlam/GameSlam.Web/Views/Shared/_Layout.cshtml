@@ -7,6 +7,9 @@
     <meta name="description" content="100% free indie games">
     @Styles.Render("~/Content/gameStyle") 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    
 </head>
 <body>
     <section class="hero">
@@ -23,5 +26,7 @@
     <section>
         <p>&copy; @DateTime.Now.Year - Amar, Bonny and Chris Application</p>
     </section>
+ 
+    @RenderSection("scripts", required: false)
 </body>
 </html>
