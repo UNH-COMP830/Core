@@ -222,6 +222,8 @@
     <Content Include="Assets\css\bootstrap.min.css" />
     <Content Include="Assets\css\reset.css" />
     <Content Include="Assets\css\style.css" />
+    <Content Include="Assets\images\hero.jpg" />
+    <Content Include="Assets\images\logo.png" />
     <Content Include="favicon.ico" />
     <Content Include="Assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

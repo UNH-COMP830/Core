@@ -8,14 +8,14 @@ using System.Configuration;
 
 namespace GameSlam.Infrastructure.Repositories
 {
-    public class BlogStorageRepository
+    public class BlobStorageRepository
     {
         private readonly CloudStorageAccount storageAccount;
         private readonly Object myLock = new Object();
         private const String snapshotPrefix = "photo_";
         private const String programPrefix = "app";
 
-        public BlogStorageRepository()
+        public BlobStorageRepository()
         {
             // Parse the connection string and return a reference to the storage account.
             storageAccount = CloudStorageAccount.Parse(

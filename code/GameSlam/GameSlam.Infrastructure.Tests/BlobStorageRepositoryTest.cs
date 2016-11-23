@@ -9,10 +9,10 @@ using GameSlam.Core.Models;
 namespace GameSlam.Infrastructure.Tests
 {
     [TestClass]
-    public class BlogStorageRepositoryTest
+    public class BlobStorageRepositoryTest
     {
 
-        public BlogStorageRepositoryTest()
+        public BlobStorageRepositoryTest()
         {     
             ConfigurationManager.AppSettings["StorageConnectionString"] = "DefaultEndpointsProtocol=https;AccountName=gameslamblob;AccountKey=mJM1+mBQQP/xdfmBN0rORGZnrVOw18uLZ/za88L55gTqoODyqQ3lzYL/RKY9MsB9vapxUYZcsYFk8y3R1Yn2DA==;";
         }
@@ -25,7 +25,7 @@ namespace GameSlam.Infrastructure.Tests
         public void GetAllBlogItemsTest()
         {    
             // store the default database values.
-            BlogStorageRepository bs = new BlogStorageRepository();
+            BlobStorageRepository bs = new BlobStorageRepository();
             DownloadFileDetails fileDetails = bs.GetAllBlogItems("26780ba1-9c8f-442a-bb13-e0901b9c2a20");
 
             if (fileDetails == null)
@@ -36,7 +36,7 @@ namespace GameSlam.Infrastructure.Tests
         public void AddNewGameFilesTest()
         {
             // store the default database values.
-            BlogStorageRepository bs = new BlogStorageRepository();
+            BlobStorageRepository bs = new BlobStorageRepository();
 
             List<UploadFileDetails> files = new List<UploadFileDetails>();
 
@@ -78,7 +78,7 @@ namespace GameSlam.Infrastructure.Tests
         public void DeleteEntireDirectoryTest()
         {
             // store the default database values.
-            BlogStorageRepository bs = new BlogStorageRepository();
+            BlobStorageRepository bs = new BlobStorageRepository();
             bs.DeleteEntireDirectory("da1cd745-a8d9-43b0-bb28-0a421e6afbb4");
             bs.DeleteEntireDirectory("e276414c-924a-4529-a45c-88cfef89ab71");
         }
