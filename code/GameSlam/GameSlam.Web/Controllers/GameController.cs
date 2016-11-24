@@ -1,4 +1,5 @@
-﻿using GameSlam.Web.Models;
+﻿using GameSlam.Services.Services;
+using GameSlam.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,8 @@ namespace GameSlam.Web.Controllers
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = AccountService.AuthorizedUserStr)]
+        //[Authorize(Roles = AccountService.AdminRoleStr + "," + AccountService.AuthorizedUserStr)]
         // GET: Game/Create
         public ActionResult Create()
         {

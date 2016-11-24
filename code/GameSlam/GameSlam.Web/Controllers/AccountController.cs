@@ -9,6 +9,7 @@ using GameSlam.Web.Models;
 using GameSlam.Infrastructure.Repositories;
 using GameSlam.Core.Models;
 using GameSlam.Services;
+using GameSlam.Services.Services;
 
 namespace GameSlam.Web.Controllers
 {
@@ -18,22 +19,15 @@ namespace GameSlam.Web.Controllers
         private readonly ApplicationSignInManager signInManager;
         private readonly ApplicationUserManager userManager;
         private readonly IRepository repository;
-                    
-
-        public AccountController(IRepository repository, ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        private readonly AccountService accountService;
+          
+        public AccountController(IRepository repository, ApplicationUserManager userManager, ApplicationSignInManager signInManager, AccountService accountService)
         {
             this.repository = repository; 
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.accountService = accountService;
         }
-
-        /*
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
-        */
                  
         //
         // GET: /Account/Login
@@ -133,19 +127,20 @@ namespace GameSlam.Web.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            {                                                     
+
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email};
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await signInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await userManager.AddToRoleAsync(user.Id, accountService.GetRegisteredUserRole(model.Email));
+                    await signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await userManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await userManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                                                                      
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
