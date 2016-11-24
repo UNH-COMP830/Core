@@ -1,14 +1,23 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-    <div>Hiiiii</div>
+    
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "authorized-form" }))
     {                       
     @Html.AntiForgeryToken()
  
     <a href="javascript:document.getElementById('logoutForm').submit()" class="authorized-logout-button">Log off</a>
      @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { @class = "authorized-manage-button", title = "Manage" })
-    
+
+    }
+      
+    if (Request.GetOwinContext().Authentication.User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Pending Approval", "Create", "Game", new { area = "" }, new { @class = "upload-button" })
+    }
+    else
+    {
+        @Html.ActionLink("Submit Game", "Create", "Game", new { area = "" }, new { @class = "upload-button" })
     }
 }
 else

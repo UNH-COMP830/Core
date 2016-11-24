@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace GameSlam.Core.Enums
 {
     public enum Category
@@ -18,5 +13,12 @@ namespace GameSlam.Core.Enums
         WaitingForApprovial = 1,
         Approved = 2,
         Declined = 3
+    }
+
+    public enum UserRoles
+    {
+        Unknown = 0,
+        Admin = 1,
+        AuthorizedUser = 2
     }
 }

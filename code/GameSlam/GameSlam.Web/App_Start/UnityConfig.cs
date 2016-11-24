@@ -8,6 +8,7 @@ using System.Web;
 using GameSlam.Core.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using GameSlam.Services.Services;
 
 namespace GameSlam.Web.App_Start
 {
@@ -47,7 +48,7 @@ namespace GameSlam.Web.App_Start
             container.RegisterType<IRepository, Repository>();
             container.RegisterType<ApplicationSignInManager>();
             container.RegisterType<ApplicationUserManager>();
-            //container.RegisterType<ApplicationRoleManager>();
+            container.RegisterType<ApplicationRoleManager>();
 
 
             ///http://tech.trailmax.info/2014/09/aspnet-identity-and-ioc-container-registration/
@@ -59,6 +60,9 @@ namespace GameSlam.Web.App_Start
 
             container.RegisterType<IRoleStore<IdentityRole, string>, RoleStore<IdentityRole, string, IdentityUserRole>>(
                 new InjectionConstructor(typeof(ApplicationDbContext)));
+
+            container.RegisterType<AccountService>();
+            
         }
     }
 }
