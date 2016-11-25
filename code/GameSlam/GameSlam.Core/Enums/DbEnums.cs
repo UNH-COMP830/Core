@@ -1,24 +1,49 @@
 ﻿
+using System.ComponentModel;
+
 namespace GameSlam.Core.Enums
 {
-    public enum Category
+    /// <summary>
+    /// How to map Enum to EF
+    /// code: http://stackoverflow.com/questions/34557574/how-to-create-a-table-corresponding-to-enum-in-ef6-code-first
+    /// </summary>
+    public enum SystemTypeEnum
     {
         Windows = 1,
         Linux = 2,
         OSX = 3
     }
 
-    public enum ApprovalStatus
+    public enum CategoryEnum
     {
-        WaitingForApprovial = 1,
-        Approved = 2,
-        Declined = 3
+        [Description("Action")]
+        Action = 1,
+        [Description("Shooter")]
+        Shooter = 2,
+        [Description("Puzzle")]
+        Puzzle = 3,
+        [Description("Sports")]
+        Sports = 4,
+        [Description("Music")]
+        Music = 5,
+        [Description("Multiplayer")]
+        Multiplayer = 6,
+        [Description("Adventure & RPG")]
+        AdventureAndRPG = 7,
+        [Description("Strategy & Defence")]
+        StrategyAndDefence = 8,
+        [Description("Tutorials")]
+        Tutorials = 9
     }
 
-    public enum UserRoles
+    public enum ApprovalStatusEnum
     {
-        Unknown = 0,
-        Admin = 1,
-        AuthorizedUser = 2
+        [Description("Waiting For Approval")]
+        PendingApproval = 1,
+        [Description("Approved")]
+        Approved = 2,
+        [Description("Declined")]
+        Declined = 3
     }
+  
 }

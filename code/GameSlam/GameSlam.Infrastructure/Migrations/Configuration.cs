@@ -1,5 +1,7 @@
 namespace GameSlam.Infrastructure.Migrations
 {
+    using Core.Enums;
+    using Core.Extentions;
     using Core.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
@@ -14,9 +16,15 @@ namespace GameSlam.Infrastructure.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            this.AutomaticMigrationDataLossAllowed = true;
             ContextKey = "Data_intitial";
         }
 
+
+        /// <summary>
+        /// This method is called after upgrading to the latest migration to allow seed data to be updated.
+        /// </summary>
+        /// <param name="context"></param>
         protected override void Seed(GameSlam.Infrastructure.Repositories.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
@@ -33,9 +41,17 @@ namespace GameSlam.Infrastructure.Migrations
             //
 
             // RUN::  
+            // Add-Migration Initial >>>> enable migration
             // Add-Migration Initial -IgnoreChanges >>::>(track changes generates up and down)
             // update -database -Verbose  >>::>(push database changes)
-            // Add-Migration Initial
+
+            context.Categories.SeedEnumValues<Category, CategoryEnum>(@enum => @enum);
+            context.SaveChanges();
+
+            context.ApprovalStatuses.SeedEnumValues<ApprovalStatus, ApprovalStatusEnum>(@enum => @enum);
+            context.SaveChanges();
+
+            
             if (!context.Roles.Any(r => r.Name == "Admin"))
             {
                 var store = new RoleStore<IdentityRole>(context);

@@ -1,4 +1,5 @@
-﻿using GameSlam.Core.Models;
+﻿using GameSlam.Core.Enums;
+using GameSlam.Core.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -30,7 +31,8 @@ namespace GameSlam.Infrastructure.Repositories
 
         public DbSet<GameDetail> GameDetails { get; set; }
         public DbSet<PublicResponse> PublicResponse { get; set; }
-        //public DbSet<GameCreator> GameCreators { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<ApprovalStatus> ApprovalStatuses { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

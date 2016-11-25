@@ -30,7 +30,15 @@ namespace GameSlam.Web.Controllers
             return View();
         }
 
-                                                                             
+        [Authorize(Roles = AccountService.AdminRoleStr)]
+        //[Authorize(Roles = AccountService.AdminRoleStr + "," + AccountService.AuthorizedUserStr)]
+        // GET: Game/Create
+        public ActionResult PendingApprovial()
+        {
+            return View();
+        }
+
+
         // POST: Game/Create 
         [HttpPost]
         [AllowAnonymous]

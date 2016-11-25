@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GameSlam.Core.Enums;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;         
 
 namespace GameSlam.Core.Models
 {

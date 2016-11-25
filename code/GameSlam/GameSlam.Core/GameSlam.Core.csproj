@@ -60,7 +60,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\ISample.cs" />
+    <Compile Include="Enums\DBEnumClass.cs" />
     <Compile Include="Enums\DbEnums.cs" />
+    <Compile Include="Extentions\EnumExtention.cs" />
     <Compile Include="Extentions\FileExtensionsAttribute.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\DownloadFileDetails.cs" />
