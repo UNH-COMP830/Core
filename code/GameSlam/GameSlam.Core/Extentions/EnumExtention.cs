@@ -42,5 +42,6 @@ namespace GameSlam.Core.Extentions
                                .Select(value => converter((TEnum)value))
                                .ToList()
                                .ForEach(instance => dbSet.AddOrUpdate(instance));
+
     }
 }

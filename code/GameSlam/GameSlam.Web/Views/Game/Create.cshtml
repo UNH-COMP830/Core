@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using Microsoft.AspNet.Identity    
 
 @model GameSlam.Web.Models.UploadGameViewModel
 @{
@@ -36,6 +36,13 @@
             @Html.TextAreaFor(m => m.Description, new { @class = "", @rows = 16, @cols = 40, @placeholder = Html.DisplayNameFor(n => n.Description) })
             @Html.ValidationMessageFor(model => model.Description)
             </div>
+        </div>     
+        <div class="wrapper description">
+            <h3>Category</h3>
+                        @Html.DropDownListFor(x => x.CategoryId,
+    from GameSlam.Core.Enums.CategoryEnum state in Enum.GetValues(typeof(GameSlam.Core.Enums.CategoryEnum))
+    select new SelectListItem() { Text = GameSlam.Core.Extentions.EnumExtention.GetDescription(state), Value = ((int)state).ToString() })
+            @Html.ValidationMessageFor(model => model.CategoryId)
         </div>
 
         <div class="wrapper description">

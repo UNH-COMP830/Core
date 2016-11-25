@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using GameSlam.Core.Extentions;
+using GameSlam.Core.Enums;
 
 namespace GameSlam.Web.Models
 {
@@ -67,6 +68,10 @@ namespace GameSlam.Web.Models
         [Required]
         [Display(Name = "download-osx")]
         public HttpPostedFileBase Downloadosx { get; set; }
+             
+        [Required]
+        [Display(Name = "Category")]
+        public CategoryEnum CategoryId { get; set; }
     }
 
 }
