@@ -224,6 +224,7 @@
     <Content Include="Assets\css\style.css" />
     <Content Include="Assets\images\hero.jpg" />
     <Content Include="Assets\images\logo.png" />
+    <Content Include="Assets\js\gameslam.js" />
     <Content Include="favicon.ico" />
     <Content Include="Assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

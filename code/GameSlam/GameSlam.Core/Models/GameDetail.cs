@@ -25,14 +25,11 @@ namespace GameSlam.Core.Models
         public ApprovalStatus StatusId { get; set; }
 
         [Required(ErrorMessage = "Valid time is Required")]
-        public String CreateTime { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime CreateTime { get; set; }
         
         // navigation
-        public virtual ICollection<ApplicationUser> UserIds { get; set; }
-
-        public GameDetail()
-        {
-            UserIds = new List<ApplicationUser>();
-        }
+        public virtual ApplicationUser UserId { get; set; }
+                  
     }
 }

@@ -1,4 +1,5 @@
-﻿using GameSlam.Core.Models;
+﻿using GameSlam.Core.Enums;
+using GameSlam.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,5 +54,66 @@ namespace GameSlam.Infrastructure.Repositories
         {
             return db.GameDetails.FirstOrDefault(x => x.Id == gameId);
         }
+
+        public GameDetail AddGame(GameDetail newGame)
+        {     
+            var newRow = db.GameDetails.Create();
+
+            newRow.CategoryId = newGame.CategoryId;
+            newRow.CreateTime = newGame.CreateTime;
+            newRow.Description = newGame.Description;
+            newRow.StatusId = newGame.StatusId;
+            newRow.Title = newGame.Title;
+            // this needs to be added in the same context as the usermanager
+            newRow.UserId = newGame.UserId;
+                                                             
+            if (newGame.StatusId != null)
+            {
+                db.ApprovalStatuses.Attach(newGame.StatusId);
+                db.Entry(newGame.StatusId).State = System.Data.Entity.EntityState.Unchanged;
+            }
+            if (newGame.CategoryId != null)
+            {
+                db.Categories.Attach(newGame.CategoryId);
+                db.Entry(newGame.CategoryId).State = System.Data.Entity.EntityState.Unchanged;
+            }
+            if (newGame.UserId != null)
+            {
+                db.Users.Attach(newGame.UserId);
+                db.Entry(newGame.UserId).State = System.Data.Entity.EntityState.Unchanged;
+            }
+            db.GameDetails.Add(newRow);
+            db.SaveChanges();
+            newGame.Id = newRow.Id;
+                                 
+            return newGame;
+        }
+
+        public ApprovalStatus FindApprovalStatus(ApprovalStatusEnum ae)
+        {
+            using (ApplicationDbContext dbContext = new ApplicationDbContext())
+            {
+                return dbContext.ApprovalStatuses.Find((int)ae);
+            }                   
+        }
+
+        public Category FindCategory(CategoryEnum cat)
+        {
+            using (ApplicationDbContext dbContext = new ApplicationDbContext())
+            {
+                return dbContext.Categories.Find((int)cat);
+            }
+        }
+
+        public ApplicationUser GetUser(String userId)
+        {  
+            //dont use the UserManager to get the user information because that will cause 
+            // dbContext conflicts :(
+            using (ApplicationDbContext dbContext = new ApplicationDbContext())
+            { 
+                return db.Users.Where(m => m.Id == userId).First();
+            }
+        }
+            
     }
 }

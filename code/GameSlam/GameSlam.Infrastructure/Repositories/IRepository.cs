@@ -1,4 +1,5 @@
-﻿using GameSlam.Core.Models;
+﻿using GameSlam.Core.Enums;
+using GameSlam.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,9 @@ namespace GameSlam.Infrastructure.Repositories
         IQueryable<PublicResponse> GetAllGameResponses();
         IQueryable<ApplicationUser> GetAllUsers();
         GameDetail GetGame(int gameId);
+        GameDetail AddGame(GameDetail newGame);
+        ApprovalStatus FindApprovalStatus(ApprovalStatusEnum ae);
+        Category FindCategory(CategoryEnum cat);
+        ApplicationUser GetUser(String userId);
     }
 }
