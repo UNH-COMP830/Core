@@ -2,6 +2,7 @@
 using GameSlam.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,32 +60,51 @@ namespace GameSlam.Infrastructure.Repositories
         {     
             var newRow = db.GameDetails.Create();
 
-            newRow.CategoryId = newGame.CategoryId;
-            newRow.CreateTime = newGame.CreateTime;
-            newRow.Description = newGame.Description;
-            newRow.StatusId = newGame.StatusId;
-            newRow.Title = newGame.Title;
-            // this needs to be added in the same context as the usermanager
-            newRow.UserId = newGame.UserId;
-                                                             
-            if (newGame.StatusId != null)
+            try
             {
-                db.ApprovalStatuses.Attach(newGame.StatusId);
-                db.Entry(newGame.StatusId).State = System.Data.Entity.EntityState.Unchanged;
+                newRow.CategoryId = newGame.CategoryId;
+                newRow.CreateTime = newGame.CreateTime;
+                newRow.Description = newGame.Description;
+                newRow.StatusId = newGame.StatusId;
+                newRow.Title = newGame.Title;
+                newRow.BlogStorageGuidId = newGame.BlogStorageGuidId;
+
+                // this needs to be added in the same context as the usermanager
+                newRow.UserId = newGame.UserId;
+
+                if (newGame.StatusId != null)
+                {
+                    db.ApprovalStatuses.Attach(newGame.StatusId);
+                    db.Entry(newGame.StatusId).State = System.Data.Entity.EntityState.Unchanged;
+                }
+                if (newGame.CategoryId != null)
+                {
+                    db.Categories.Attach(newGame.CategoryId);
+                    db.Entry(newGame.CategoryId).State = System.Data.Entity.EntityState.Unchanged;
+                }
+                if (newGame.UserId != null)
+                {
+                    db.Users.Attach(newGame.UserId);
+                    db.Entry(newGame.UserId).State = System.Data.Entity.EntityState.Unchanged;
+                }
+                db.GameDetails.Add(newRow);
+                db.SaveChanges();
+                newGame.Id = newRow.Id;
             }
-            if (newGame.CategoryId != null)
+            catch (DbEntityValidationException e)
             {
-                db.Categories.Attach(newGame.CategoryId);
-                db.Entry(newGame.CategoryId).State = System.Data.Entity.EntityState.Unchanged;
-            }
-            if (newGame.UserId != null)
-            {
-                db.Users.Attach(newGame.UserId);
-                db.Entry(newGame.UserId).State = System.Data.Entity.EntityState.Unchanged;
-            }
-            db.GameDetails.Add(newRow);
-            db.SaveChanges();
-            newGame.Id = newRow.Id;
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }             
                                  
             return newGame;
         }

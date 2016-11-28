@@ -6,6 +6,7 @@ using GameSlam.Services;
 using GameSlam.Web.Models;
 using Microsoft.AspNet.Identity;
 using System;
+using System.IO;
 using System.Web;
 
 namespace GameSlam.Web.Workflow
@@ -32,20 +33,54 @@ namespace GameSlam.Web.Workflow
                 CreateTime = DateTime.Now,
                 StatusId = repository.FindApprovalStatus(ApprovalStatusEnum.PendingApproval),
                 Description = model.Description,
-                Title = model.Title
+                Title = model.Title,
+                BlogStorageGuidId = UploadGameFilesHelper(model),
+                UserId = repository.GetUser(System.Web.HttpContext.Current.User.Identity.GetUserId())
             };
-
-            newGame.UserId = repository.GetUser(System.Web.HttpContext.Current.User.Identity.GetUserId());
-
+            
             return repository.AddGame(newGame).Id;
         }
 
-        private void uploadGameFiles(UploadGameViewModel model)
+        private string UploadGameFilesHelper(UploadGameViewModel model)
         {
-            FileStorageDetail fDetails = new FileStorageDetail();
+            UploadFileDetails uploadDetail = new UploadFileDetails()
+            {
+                LinuxDetails = ConvertHttpFileToDomainSpecific(model.DownloadLinux),
+                OsxDetails = ConvertHttpFileToDomainSpecific(model.Downloadosx),
+                WindowsDetails = ConvertHttpFileToDomainSpecific(model.DownloadWindows)
+            };
 
-            //fDetails.
+            uploadDetail.Screenshots.Add(ConvertHttpFileToDomainSpecific(model.ScreenShot1));
+            uploadDetail.Screenshots.Add(ConvertHttpFileToDomainSpecific(model.ScreenShot2));
+            uploadDetail.Screenshots.Add(ConvertHttpFileToDomainSpecific(model.ScreenShot3));
+            uploadDetail.Screenshots.Add(ConvertHttpFileToDomainSpecific(model.ScreenShot4));
+            uploadDetail.Screenshots.Add(ConvertHttpFileToDomainSpecific(model.ScreenShot5));
+            uploadDetail.Screenshots.Add(ConvertHttpFileToDomainSpecific(model.ScreenShot6)); 
 
+            BlobStorageRepository blogStorage = new BlobStorageRepository();
+            return blogStorage.AddNewGameFiles(uploadDetail);
         }
+
+        private UploadFileDetail ConvertHttpFileToDomainSpecific(HttpPostedFileBase uploadFileInfo)
+        {                                     
+            if (uploadFileInfo != null)
+            {
+                return new UploadFileDetail()
+                {
+                    FileData = StreamToByteArray(uploadFileInfo.InputStream),
+                    FileExtention = Path.GetExtension(uploadFileInfo.FileName)
+                };
+            }
+            return null;
+        }
+
+        private byte[] StreamToByteArray(Stream stream)
+        {
+            using (MemoryStream mem = new MemoryStream())
+            {
+                stream.CopyTo(mem);
+                return mem.ToArray();
+            }
+        } 
     }
 }

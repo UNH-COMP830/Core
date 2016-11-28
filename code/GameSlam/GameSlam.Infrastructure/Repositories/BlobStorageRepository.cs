@@ -1,10 +1,9 @@
 ﻿using GameSlam.Core.Models;
-using Microsoft.Azure; // Namespace for CloudConfigurationManager
-using Microsoft.WindowsAzure.Storage; // Namespace for CloudStorageAccount
-using Microsoft.WindowsAzure.Storage.Blob; // Namespace for Blob storage types
+using Microsoft.Azure; 
+using Microsoft.WindowsAzure.Storage; 
+using Microsoft.WindowsAzure.Storage.Blob; 
 using System;
-using System.Collections.Generic;
-using System.Configuration;
+using System.Collections.Generic;     
 
 namespace GameSlam.Infrastructure.Repositories
 {
@@ -13,7 +12,9 @@ namespace GameSlam.Infrastructure.Repositories
         private readonly CloudStorageAccount storageAccount;
         private readonly Object myLock = new Object();
         private const String snapshotPrefix = "photo_";
-        private const String programPrefix = "app";
+        private const String programWindowsPrefix = "win_app";
+        private const String programLinuxPrefix = "linux_app";
+        private const String programOsxPrefix = "osx_app";
 
         public BlobStorageRepository()
         {
@@ -43,17 +44,18 @@ namespace GameSlam.Infrastructure.Repositories
         /// <param name="files"></param>
         /// <param name="program"></param>
         /// <returns>new Guid</returns>
-        public string AddNewGameFiles(List<UploadFileDetails> fileData, UploadFileDetails program)
+        public string AddNewGameFiles(UploadFileDetails uploadDetails)
         {
             String newGuid = string.Empty;    
                        
             lock (myLock)
             {
+                //List<UploadFileDetails> fileData, UploadFileDetails program
                 // Retrieve a reference to a container.
                 CloudBlobContainer container = getNewContainer();
                 newGuid = container.Name;
 
-                UploadBlobToContainer(container, fileData, program);
+                UploadBlobToContainer(container, uploadDetails);
             }
             return newGuid;        
         }
@@ -94,18 +96,22 @@ namespace GameSlam.Infrastructure.Repositories
         /// <param name="container"></param>
         /// <param name="imageFile"></param>
         /// <param name="program"></param>
-        private void UploadBlobToContainer(CloudBlobContainer container, List<UploadFileDetails> imageFile, UploadFileDetails program)
+        private void UploadBlobToContainer(CloudBlobContainer container, UploadFileDetails uploadFileDetails )
         {  
-            for (int i = 0; i < imageFile.Count; i++)
+            for (int i = 0; i < uploadFileDetails.Screenshots.Count; i++)
             {
-                UploadFileDetails singleFile = imageFile[i];
+                UploadFileDetail singleFile = uploadFileDetails.Screenshots[i];
                 if (singleFile == null)
                     continue;
                 AddFileHelper(container, singleFile, snapshotPrefix + i + singleFile.FileExtention);
             }
 
-            if (program != null)
-                AddFileHelper(container, program, programPrefix + program.FileExtention);
+            if (uploadFileDetails.WindowsDetails != null)
+                AddFileHelper(container, uploadFileDetails.WindowsDetails, programWindowsPrefix + uploadFileDetails.WindowsDetails.FileExtention);
+            if (uploadFileDetails.LinuxDetails != null)
+                AddFileHelper(container, uploadFileDetails.LinuxDetails, programLinuxPrefix + uploadFileDetails.LinuxDetails.FileExtention);
+            if (uploadFileDetails.OsxDetails != null)
+                AddFileHelper(container, uploadFileDetails.OsxDetails, programOsxPrefix + uploadFileDetails.OsxDetails.FileExtention);
         }
 
         /// <summary>
@@ -114,7 +120,7 @@ namespace GameSlam.Infrastructure.Repositories
         /// <param name="container"></param>
         /// <param name="singleFile"></param>
         /// <param name="fileName"></param>
-        private void AddFileHelper(CloudBlobContainer container, UploadFileDetails singleFile, String fileName)
+        private void AddFileHelper(CloudBlobContainer container, UploadFileDetail singleFile, String fileName)
         {
             if (singleFile == null)
                 return;
@@ -182,9 +188,17 @@ namespace GameSlam.Infrastructure.Repositories
                 {
                     Uri uri = new Uri(storageDetail.FileUrl);
                     string filename = System.IO.Path.GetFileName(uri.LocalPath);
-                    if (filename.StartsWith(programPrefix))
+                    if (filename.StartsWith(programWindowsPrefix))
                     {
-                        downloadDetails.ProgramFile = storageDetail;
+                        downloadDetails.windowsProgramFile = storageDetail;
+                    }
+                    else if (filename.StartsWith(programLinuxPrefix))
+                    {
+                        downloadDetails.linuxProgramFile = storageDetail;
+                    }
+                    else if (filename.StartsWith(programOsxPrefix))
+                    {
+                        downloadDetails.osxProgramFile = storageDetail;
                     }
                     else if (filename.StartsWith(snapshotPrefix))
                     {

@@ -27,8 +27,12 @@ namespace GameSlam.Core.Models
         [Required(ErrorMessage = "Valid time is Required")]
         [DataType(DataType.DateTime)]
         public DateTime CreateTime { get; set; }
-        
-        // navigation
+
+        [Required]
+        [StringLength(128)]
+        public String BlogStorageGuidId { get; set; }
+
+        // navigation   
         public virtual ApplicationUser UserId { get; set; }
                   
     }

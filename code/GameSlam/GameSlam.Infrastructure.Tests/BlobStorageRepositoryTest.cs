@@ -1,8 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GameSlam.Infrastructure.Repositories;
-using System.Configuration;
-using System.Collections.Generic;
+using System.Configuration;         
 using System.Text;
 using GameSlam.Core.Models;
 
@@ -38,31 +37,33 @@ namespace GameSlam.Infrastructure.Tests
             // store the default database values.
             BlobStorageRepository bs = new BlobStorageRepository();
 
-            List<UploadFileDetails> files = new List<UploadFileDetails>();
+            UploadFileDetails toUpload = new UploadFileDetails();
 
-            files.Add(new UploadFileDetails() {
+
+            toUpload.Screenshots.Add(new UploadFileDetail() {
                 FileData = Encoding.ASCII.GetBytes("Hello 1"),
                 FileExtention  = ".txt"
             });
 
-            files.Add(new UploadFileDetails()
+            toUpload.Screenshots.Add(new UploadFileDetail()
             {
                 FileData = Encoding.ASCII.GetBytes("Hello 2"),
                 FileExtention = ".html"
             });
-            files.Add(new UploadFileDetails()
+
+            toUpload.Screenshots.Add(new UploadFileDetail()
             {
                 FileData = Encoding.ASCII.GetBytes("Hello 3"),
                 FileExtention = ".txt"
             });
 
-            UploadFileDetails program = new UploadFileDetails()
+            toUpload.WindowsDetails = new UploadFileDetail()
             {
                 FileData = Encoding.ASCII.GetBytes("prog1"),
                 FileExtention = ".txt"
             };
 
-            String newGuid = bs.AddNewGameFiles(files, program);
+            String newGuid = bs.AddNewGameFiles(toUpload);
 
             if (newGuid == null)
                 Assert.Fail("GUID should not be null");
