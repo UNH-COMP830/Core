@@ -1,15 +1,20 @@
 ﻿using GameSlam.Services.Services;
 using GameSlam.Web.Models;
+using GameSlam.Web.Workflow;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace GameSlam.Web.Controllers
 {
     public class GameController : Controller
     {
+        GameWorkflow gameWorkflow;
+        public GameController(GameWorkflow gameWorkflow)
+        {
+            this.gameWorkflow = gameWorkflow;
+        }
+
         // GET: Game
         public ActionResult Index()
         {
@@ -30,7 +35,15 @@ namespace GameSlam.Web.Controllers
             return View();
         }
 
-                                                                             
+        [Authorize(Roles = AccountService.AdminRoleStr)]
+        //[Authorize(Roles = AccountService.AdminRoleStr + "," + AccountService.AuthorizedUserStr)]
+        // GET: Game/Create
+        public ActionResult PendingApprovial()
+        {
+            return View();
+        }
+
+
         // POST: Game/Create 
         [HttpPost]
         [AllowAnonymous]
@@ -43,12 +56,13 @@ namespace GameSlam.Web.Controllers
                 //check if model is valid
                 if (ModelState.IsValid)
                 {
-                    return RedirectToAction("Index");
+                    int gameId = gameWorkflow.AddGame(model);
+                    return RedirectToAction("Details", new { id = gameId });
                 }
-
             }
-            catch
+            catch (Exception ex)
             {
+                
                 return View();
             }
 

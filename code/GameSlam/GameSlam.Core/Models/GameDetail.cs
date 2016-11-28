@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GameSlam.Core.Enums;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;         
 
 namespace GameSlam.Core.Models
 {
@@ -26,14 +25,15 @@ namespace GameSlam.Core.Models
         public ApprovalStatus StatusId { get; set; }
 
         [Required(ErrorMessage = "Valid time is Required")]
-        public String CreateTime { get; set; }
-        
-        // navigation
-        public virtual ICollection<ApplicationUser> UserIds { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime CreateTime { get; set; }
 
-        public GameDetail()
-        {
-            UserIds = new List<ApplicationUser>();
-        }
+        [Required]
+        [StringLength(128)]
+        public String BlogStorageGuidId { get; set; }
+
+        // navigation   
+        public virtual ApplicationUser UserId { get; set; }
+                  
     }
 }

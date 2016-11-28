@@ -9,6 +9,7 @@ using GameSlam.Core.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using GameSlam.Services.Services;
+using GameSlam.Web.Workflow;
 
 namespace GameSlam.Web.App_Start
 {
@@ -62,7 +63,9 @@ namespace GameSlam.Web.App_Start
                 new InjectionConstructor(typeof(ApplicationDbContext)));
 
             container.RegisterType<AccountService>();
-            
+            container.RegisterType<GameWorkflow>(); 
+
+
         }
     }
 }

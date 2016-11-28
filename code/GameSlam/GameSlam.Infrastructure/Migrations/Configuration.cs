@@ -1,22 +1,28 @@
-namespace GameSlam.Infrastructure.Migrations
-{
-    using Core.Models;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using Repositories;
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
 
+using GameSlam.Core.Enums;
+using GameSlam.Core.Extentions;
+using GameSlam.Core.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.Migrations;
+using System.Linq;
+
+namespace GameSlam.Infrastructure.Migrations
+{        
     public sealed class Configuration : DbMigrationsConfiguration<GameSlam.Infrastructure.Repositories.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            this.AutomaticMigrationDataLossAllowed = true;
             ContextKey = "Data_intitial";
         }
 
+
+        /// <summary>
+        /// This method is called after upgrading to the latest migration to allow seed data to be updated.
+        /// </summary>
+        /// <param name="context"></param>
         protected override void Seed(GameSlam.Infrastructure.Repositories.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
@@ -33,9 +39,17 @@ namespace GameSlam.Infrastructure.Migrations
             //
 
             // RUN::  
+            // Add-Migration Initial >>>> enable migration
             // Add-Migration Initial -IgnoreChanges >>::>(track changes generates up and down)
-            // update -database -Verbose  >>::>(push database changes)
-            // Add-Migration Initial
+            // Update-Database -Verbose  >>::>(push database changes)
+
+            context.Categories.SeedEnumValues<Category, CategoryEnum>(@enum => @enum);
+            context.SaveChanges();
+
+            context.ApprovalStatuses.SeedEnumValues<ApprovalStatus, ApprovalStatusEnum>(@enum => @enum);
+            context.SaveChanges();
+
+            
             if (!context.Roles.Any(r => r.Name == "Admin"))
             {
                 var store = new RoleStore<IdentityRole>(context);
@@ -64,6 +78,17 @@ namespace GameSlam.Infrastructure.Migrations
 
                 manager.Create(user, userPWD);
                 manager.AddToRole(user.Id, "Admin");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "a@a.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "a@a.com" };
+                string userPWD = "Welcome1!";
+
+                manager.Create(user, userPWD);
+                manager.AddToRole(user.Id, "AuthorizedUser");
             }
         }
 

@@ -2,8 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;             
 
 namespace GameSlam.Core.Models
 {
@@ -11,10 +10,10 @@ namespace GameSlam.Core.Models
     public class ApplicationUser : IdentityUser
     {
         //navigate
-        public virtual ICollection<GameDetail> GameDetails { get; set; }
+        //public virtual ICollection<GameDetail> GameDetails { get; set; }
         public ApplicationUser()
         {
-            GameDetails = new List<GameDetail>();
+            //GameDetails = new List<GameDetail>();
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<GameSlam.Core.Models.ApplicationUser> manager)

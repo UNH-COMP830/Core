@@ -1,5 +1,7 @@
 ﻿
+using GameSlam.Core.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace GameSlam.Services.Services
 {
@@ -17,6 +19,12 @@ namespace GameSlam.Services.Services
             this.signInManager = signInManager;
 
         }
+
+        public async Task<ApplicationUser> GetCurrentUser()
+        {
+            return await userManager.FindByIdAsync(await signInManager.GetVerifiedUserIdAsync());
+        }
+
         public String GetRegisteredUserRole(string email)
         {
             if (email.ToLower().EndsWith(CompanyDomainName))

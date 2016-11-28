@@ -1,12 +1,86 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using GameSlam.Core.Enums;
+using GameSlam.Core.Models;
+using GameSlam.Infrastructure.Repositories;
+using GameSlam.Services;
+using GameSlam.Web.Models;
+using Microsoft.AspNet.Identity;
+using System;
+using System.IO;
+using System.Web;
 
 namespace GameSlam.Web.Workflow
 {
-    class GameWorkflow
+    public class GameWorkflow
     {
+        private readonly ApplicationUserManager userManager;
+        private readonly ApplicationSignInManager signInManager;
+        private readonly IRepository repository;
+
+        public GameWorkflow(IRepository repository, ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            this.repository = repository;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+        }
+
+        public int AddGame(UploadGameViewModel model)
+        {
+
+            GameDetail newGame = new GameDetail()
+            {
+                CategoryId = repository.FindCategory(model.CategoryId),
+                CreateTime = DateTime.Now,
+                StatusId = repository.FindApprovalStatus(ApprovalStatusEnum.PendingApproval),
+                Description = model.Description,
+                Title = model.Title,
+                BlogStorageGuidId = UploadGameFilesHelper(model),
+                UserId = repository.GetUser(System.Web.HttpContext.Current.User.Identity.GetUserId())
+            };
+            
+            return repository.AddGame(newGame).Id;
+        }
+
+        private string UploadGameFilesHelper(UploadGameViewModel model)
+        {
+            UploadFileDetails uploadDetail = new UploadFileDetails()
+            {
+                LinuxDetails = ConvertHttpFileToDomainSpecific(model.DownloadLinux),
+                OsxDetails = ConvertHttpFileToDomainSpecific(model.Downloadosx),
+                WindowsDetails = ConvertHttpFileToDomainSpecific(model.DownloadWindows)
+            };
+
+            uploadDetail.Screenshots.Add(ConvertHttpFileToDomainSpecific(model.ScreenShot1));
+            uploadDetail.Screenshots.Add(ConvertHttpFileToDomainSpecific(model.ScreenShot2));
+            uploadDetail.Screenshots.Add(ConvertHttpFileToDomainSpecific(model.ScreenShot3));
+            uploadDetail.Screenshots.Add(ConvertHttpFileToDomainSpecific(model.ScreenShot4));
+            uploadDetail.Screenshots.Add(ConvertHttpFileToDomainSpecific(model.ScreenShot5));
+            uploadDetail.Screenshots.Add(ConvertHttpFileToDomainSpecific(model.ScreenShot6)); 
+
+            BlobStorageRepository blogStorage = new BlobStorageRepository();
+            return blogStorage.AddNewGameFiles(uploadDetail);
+        }
+
+        private UploadFileDetail ConvertHttpFileToDomainSpecific(HttpPostedFileBase uploadFileInfo)
+        {                                     
+            if (uploadFileInfo != null)
+            {
+                return new UploadFileDetail()
+                {
+                    FileData = StreamToByteArray(uploadFileInfo.InputStream),
+                    FileExtention = Path.GetExtension(uploadFileInfo.FileName)
+                };
+            }
+            return null;
+        }
+
+        private byte[] StreamToByteArray(Stream stream)
+        {
+            using (MemoryStream mem = new MemoryStream())
+            {
+                stream.CopyTo(mem);
+                return mem.ToArray();
+            }
+        } 
     }
 }

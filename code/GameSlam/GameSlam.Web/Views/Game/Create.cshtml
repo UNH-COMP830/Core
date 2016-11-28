@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using Microsoft.AspNet.Identity    
 
 @model GameSlam.Web.Models.UploadGameViewModel
 @{
@@ -9,59 +9,341 @@
 @section scripts
 {
     <script type="text/javascript">
+
+        var MAX_PROGRAM_SIZE    = 300000000;
+        var MAX_SCREENSHOT_SIZE = 30000000;
+
+        function getScreenshotSize()
+        {
+            var s1 = $('#screenShot1');
+            var s2 = $('#screenShot2');
+            var s3 = $('#screenShot3');
+            var s4 = $('#screenShot4');
+            var s5 = $('#screenShot5');
+            var s6 = $('#screenShot6');
+            var total = 0;
+
+            if (s1[0].files.length > 0)
+                total += s1[0].files[0].size;
+            if (s2[0].files.length > 0)
+                total += s2[0].files[0].size;
+            if (s3[0].files.length > 0)
+                total += s3[0].files[0].size;
+            if (s4[0].files.length > 0)
+                total += s4[0].files[0].size;
+
+            if (s5[0].files.length > 0)
+                total += s5[0].files[0].size;
+            if (s6[0].files.length > 0)
+                total += s6[0].files[0].size;
+            return total;
+        }
+
+        function isScreenshotSizeInvalid()
+        {
+            return isScreenshotSizeExceedMax(getScreenshotSize());
+        }
+        function isScreenshotSizeExceedMax(sSize)
+        {
+            return (sSize > MAX_SCREENSHOT_SIZE);
+        }
+
+
+        function getProgramSize()
+        {
+            var s1 = $('#windowsApp1');
+            var s2 = $('#linuxApp1');
+            var s3 = $('#osxApp1');
+            var total = 0;
+
+            if (s1[0].files.length > 0)
+                total += s1[0].files[0].size;
+            if (s2[0].files.length > 0)
+                total += s2[0].files[0].size;
+            if (s3[0].files.length > 0)
+                total += s3[0].files[0].size;
+
+            return total;
+        }
+        
+        function isProgramSizeInvalid()
+        {
+            return isProgramSizeExceedMax(getProgramSize()); 
+        }
+
+        function isProgramSizeExceedMax(sSize)
+        {
+            return (sSize > MAX_PROGRAM_SIZE);
+        }
+
+        function checkFields()
+        {
+            var title = $('#title');
+            var description = $('#description');
+            var totalScreenShotSize = getScreenshotSize();
+            var totalProgramSize = getProgramSize();
+            var errorDetected = false;
+
+            // check 'General' Section
+            var genError = $('.generalError');
+
+            var generalSectionError = "";
+            if(title.val().length == 0)
+            {
+                generalSectionError = generalSectionError + "<div>Missing game 'Title'</div>";
+                title.addClass("someError"); 
+            }
+            else
+            {
+                title.removeClass("someError");
+            }
+            if (description.val().length == 0) {
+                generalSectionError = generalSectionError + "<div>Missing game 'Description'</div>";
+                description.addClass("someError");
+            }
+            else
+            {
+                title.removeClass("someError");
+            }
+
+            genError.empty();
+            if(generalSectionError.length > 0)
+            {
+                genError.append(generalSectionError)
+                genError.show();
+                errorDetected = true;
+            }
+            else
+            {
+                genError.hide();
+            }
+
+            // check 'Category' Section  (nothing to do here)
+
+            // check 'SCREENSHOTS' Section      
+            var screenShotError = $('.screenshotError');
+            if(totalScreenShotSize == 0)
+            {
+                clearScreenshotHighlight();
+                screenShotError.text("Total file size should be greater than 0 bytes.")
+                screenShotError.show();
+                errorDetected = true;
+            }
+            else if(isScreenshotSizeExceedMax(totalScreenShotSize))
+            {
+                errorDetected = true;
+            }
+
+            // check 'DOWNLOADS' Section
+            var programError = $('.programError');
+            if (totalProgramSize == 0) {
+                clearProgramHighlight();
+                programError.text("Total file size should be greater than 0 bytes.")
+                programError.show();
+                errorDetected = true;
+            }
+            else if (isProgramSizeExceedMax(totalProgramSize)) {
+                errorDetected = true;
+            }
+
+            return !errorDetected;
+        }
+
+
+        function clearScreenshotHighlight()
+        {
+            var s1 = $('#screenShot1');
+            var s2 = $('#screenShot2');
+            var s3 = $('#screenShot3');
+            var s4 = $('#screenShot4');
+            var s5 = $('#screenShot5');
+            var s6 = $('#screenShot6');
+            s1.removeClass("someError");
+            s2.removeClass("someError");
+            s3.removeClass("someError");
+            s4.removeClass("someError");
+            s5.removeClass("someError");
+            s6.removeClass("someError");
+        }
+
+        function clearProgramHighlight()
+        {
+            var s1 = $('#windowsApp1');
+            var s2 = $('#linuxApp1');
+            var s3 = $('#osxApp1');
+            s1.removeClass("someError");
+            s2.removeClass("someError");
+            s3.removeClass("someError");
+        }
+
+        function init()
+        {
+
+            var filterScreenshot = (function (event)
+            {
+                clearScreenshotHighlight();
+
+                var sError = $('.screenshotError');
+                var errorString = "";
+                if (isScreenshotSizeInvalid())
+                {
+                    errorString = "Total ScreenShot size exceeds: " + MAX_SCREENSHOT_SIZE + " bytes."                    
+                }
+
+                var allowedExtensions = [ ".png", ".jpg", ".gif", ".jpeg" ];
+
+                if (errorString.length == 0)
+                {
+                    var extError = "";
+
+                    var fileName = $(this).val();
+                    if (fileName.length > 0)
+                    {
+                        extError = "Only .png, jpg, gif, and jpeg are supported"
+                        for (var i = 0; i < allowedExtensions.length; i++) {
+                            if (fileName.endsWith(allowedExtensions[i])) {
+                                extError = "";
+                                break; 
+                            }
+                        }
+                    }
+                    errorString = extError;
+                }
+
+                if(errorString.length > 0)
+                {
+                    $(this).val("");
+                    $(this).addClass("someError");
+                    sError.text(errorString)
+                    sError.show();
+                }
+                else
+                {
+                    sError.text("");
+                    sError.hide();
+                }
+            });
+                                                                     
+            var c = (function (event)
+            {
+                clearProgramHighlight();
+
+                var sError = $('.programError');
+                var errorString = "";
+                if (isProgramSizeInvalid())
+                {
+                    errorString = "Total program size exceeds: " + MAX_PROGRAM_SIZE + " bytes."
+                }
+
+                if (errorString.length > 0)
+                {
+                    $(this).val("");
+                    $(this).addClass("someError");
+                    sError.text(errorString)
+                    sError.show();
+                }
+                else
+                {
+                    sError.text("");
+                    sError.hide();
+                }
+            });
+
+
+            $('#screenShot1').bind('change', filterScreenshot);
+            $('#screenShot2').bind('change', filterScreenshot);
+            $('#screenShot3').bind('change', filterScreenshot);
+            $('#screenShot4').bind('change', filterScreenshot);
+            $('#screenShot5').bind('change', filterScreenshot);
+            $('#screenShot6').bind('change', filterScreenshot);
+            $('#screenShot6').bind('change', filterScreenshot);
+
+            $('#windowsApp1').bind('change', filterUploadPrograms);
+            $('#linuxApp1').bind('change', filterUploadPrograms);
+            $('#osxApp1').bind('change', filterUploadPrograms);
+        }
+
+        function validateForm(event)
+        {
+            event = event || window.event || event.srcElement;
+           // alert("inside of ValidateForm");
+            return checkFields(); // //false stops POST, true continues POST
+        }
+        
         $(function () {
-            $('a#submit_link').click(function () {
-                $('form#fooForm').submit();
+            $('a#submit_link').click(function ()
+            {
+                if (validateForm(event))
+                    $('form#fooForm').submit();
             });
         });
+
+        //$('a#submit_link').click(function (event)
+        //{
+        //    if (validateForm(event))
+        //    {
+        //        $('form#fooForm').submit();
+        //        return true;
+        //    }
+        //    return false;
+        //    //return validateForm(event);
+        //           // $('form#fooForm').submit();
+        //});
+       
     </script>
 }
 
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("Create", "Game", FormMethod.Post, new { id = "fooForm", @class = "wrapper description" }))
+     Html.EnableClientValidation(false);
+    using (Html.BeginForm("Create", "Game", FormMethod.Post, new { id = "fooForm", @class = "wrapper description", enctype = "multipart/form-data"}))
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
 
         <div class="wrapper description">
             <h3>GENERAL INFORMATION</h3>
+            <div class="generalError"></div>
             <div>
-                @Html.TextBoxFor(m => m.Title, new { @class = "", @placeholder = Html.DisplayNameFor(n => n.Title) })
-                @Html.ValidationMessageFor(model => model.Title)
+                @Html.TextBoxFor(m => m.Title, new { @id = "title", @class = "", @placeholder = Html.DisplayNameFor(n => n.Title) })
+                @*@Html.ValidationMessageFor(model => model.Title)*@
             </div>
 
             <input type="name" name="game-publisher" placeholder="Publisher" value="@User.Identity.GetUserName()" readonly>
             <div>
-            @Html.TextAreaFor(m => m.Description, new { @class = "", @rows = 16, @cols = 40, @placeholder = Html.DisplayNameFor(n => n.Description) })
-            @Html.ValidationMessageFor(model => model.Description)
+            @Html.TextAreaFor(m => m.Description, new { @id = "description", @class = "", @rows = 16, @cols = 40, @placeholder = Html.DisplayNameFor(n => n.Description) })
+            @*@Html.ValidationMessageFor(model => model.Description)*@
             </div>
+        </div>     
+        <div class="wrapper description">
+            <h3>Category</h3>
+                        @Html.DropDownListFor(x => x.CategoryId,
+            from GameSlam.Core.Enums.CategoryEnum state in Enum.GetValues(typeof(GameSlam.Core.Enums.CategoryEnum))
+            select new SelectListItem() { Text = GameSlam.Core.Extentions.EnumExtention.GetDescription(state), Value = ((int)state).ToString() })
+            @*@Html.ValidationMessageFor(model => model.CategoryId)*@
         </div>
 
         <div class="wrapper description">
-            <h3>SCREENSHOTS</h3>
-            <div class="upload"> @Html.TextBoxFor(m => m.ScreenShot1, new { @type = "file"}) @Html.ValidationMessageFor(model => model.ScreenShot1)</div>
-            <div class="upload"> @Html.TextBoxFor(m => m.ScreenShot2, new { @type = "file" }) @Html.ValidationMessageFor(model => model.ScreenShot2)</div>
-            <div class="upload"> @Html.TextBoxFor(m => m.ScreenShot3, new { @type = "file" }) @Html.ValidationMessageFor(model => model.ScreenShot3)</div>
-            <div class="upload"> @Html.TextBoxFor(m => m.ScreenShot4, new { @type = "file" }) @Html.ValidationMessageFor(model => model.ScreenShot4)</div>
-            <div class="upload"> @Html.TextBoxFor(m => m.ScreenShot5, new { @type = "file" }) @Html.ValidationMessageFor(model => model.ScreenShot5)</div>
-            <div class="upload"> @Html.TextBoxFor(m => m.ScreenShot6, new { @type = "file" }) @Html.ValidationMessageFor(model => model.ScreenShot6)</div>
+            <h3>SCREENSHOTS - max (30MB)</h3>
+             <div class="screenshotError" ></div>
+            <div class="upload"> @Html.TextBoxFor(m => m.ScreenShot1, new { @type = "file", @id = "screenShot1" }) @*@Html.ValidationMessageFor(model => model.ScreenShot1)*@</div>
+            <div class="upload"> @Html.TextBoxFor(m => m.ScreenShot2, new { @type = "file", @id = "screenShot2" }) @*@Html.ValidationMessageFor(model => model.ScreenShot2)*@</div>
+            <div class="upload"> @Html.TextBoxFor(m => m.ScreenShot3, new { @type = "file", @id = "screenShot3" }) @*@Html.ValidationMessageFor(model => model.ScreenShot3)*@</div>
+            <div class="upload"> @Html.TextBoxFor(m => m.ScreenShot4, new { @type = "file", @id = "screenShot4" }) @*@Html.ValidationMessageFor(model => model.ScreenShot4)*@</div>
+            <div class="upload"> @Html.TextBoxFor(m => m.ScreenShot5, new { @type = "file", @id = "screenShot5" }) @*@Html.ValidationMessageFor(model => model.ScreenShot5)*@</div>
+            <div class="upload"> @Html.TextBoxFor(m => m.ScreenShot6, new { @type = "file", @id = "screenShot6" }) @*@Html.ValidationMessageFor(model => model.ScreenShot6)*@</div>
         </div>
 
         <div class="wrapper description">
-            <h3>DOWNLOADS</h3>
-
-            <div class="upload"> @Html.TextBoxFor(m => m.DownloadWindows, new { @type = "file" }) @Html.ValidationMessageFor(model => model.DownloadWindows)</div>
-            <div class="upload"> @Html.TextBoxFor(m => m.DownloadLinux, new { @type = "file" }) @Html.ValidationMessageFor(model => model.DownloadLinux)</div>
-            <div class="upload"> @Html.TextBoxFor(m => m.Downloadosx, new { @type = "file" }) @Html.ValidationMessageFor(model => model.Downloadosx)</div>
+            <h3>DOWNLOADS - max (300MB)</h3>
+            <div class="programError"></div>
+            <div class="upload"><span>Windows:</span> @Html.TextBoxFor(m => m.DownloadWindows, new { @type = "file", @id = "windowsApp1" }) @*@Html.ValidationMessageFor(model => model.DownloadWindows)*@</div>
+            <div class="upload"><span>Linux:</span>  @Html.TextBoxFor(m => m.DownloadLinux, new { @type = "file", @id = "linuxApp1" }) @*@Html.ValidationMessageFor(model => model.DownloadLinux)*@</div>
+            <div class="upload"><span>OSX:</span>  @Html.TextBoxFor(m => m.Downloadosx, new { @type = "file", @id = "osxApp1" }) @*@Html.ValidationMessageFor(model => model.Downloadosx)*@</div>
 
         </div>
 
         <section class="wrapper footer">
-
-            @*<div class="">
-                <input type="submit" class="" value="Register" />
-            </div>*@
             <div class="submit-button"><a id="submit_link" href="#">Submit for Review</a></div>
             <div class="submit-button"><a href="@Url.Action("Index", "Home")">Cancel</a></div>
         </section>

@@ -35,6 +35,9 @@ namespace GameSlam.Web
 
             bundles.Add(new StyleBundle("~/Content/Images").Include(
                       "~/Assets/images/logo.png"));
+
+            bundles.Add(new ScriptBundle("~/bundles/gameSlamjs").Include(
+                        "~/Assets/js/gameslam.js"));
         }
     }
 }
