@@ -1,10 +1,11 @@
-﻿@using GameSlam.Core.Models
+﻿@using GameSlam.Core.Constants
 @using GameSlam.Core.Enums
 @model  GameSlam.Core.Models.GameDetailComplete
 
 @{
     ViewBag.RequestID = this.ViewContext.RouteData.Values["id"]; //RouteData.Values["id"];
     ViewBag.Title = "GameSlam - View Game for ID = " + ViewBag.RequestID;
+    bool isAdminUser = User.IsInRole(AppConstants.AdminRoleName);
 }
 
 <div class="wrapper description">
@@ -22,7 +23,7 @@
         <div class="grid">
             @for (var i = 0; i < Model.GameFilesInfo.Screenshots.Count; i++)
             {
-                if (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved)
+                if ((isAdminUser) || (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved))
                 {
                     var item = Model.GameFilesInfo.Screenshots[i];
                     <a class="game" href="@item.FileUrl"><div><h3>Screenshot #@i</h3></div></a>
@@ -44,7 +45,7 @@
         @if (@Model.GameFilesInfo.windowsProgramFile != null)
         {
             <div class="upload">
-            @if (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved)
+            @if ((isAdminUser) || (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved))
             {     
                 <a href="@Model.GameFilesInfo.windowsProgramFile.FileUrl">Download for Windows</a>
             }
@@ -59,7 +60,7 @@
         @if (@Model.GameFilesInfo.linuxProgramFile != null)
         {
             <div class="upload">
-            @if (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved)
+            @if ((isAdminUser) || (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved))
             {
                 <a href="@Model.GameFilesInfo.linuxProgramFile.FileUrl">Download for Linux</a>
             }
@@ -73,7 +74,7 @@
         @if (@Model.GameFilesInfo.osxProgramFile != null)
         {
             <div class="upload">
-            @if (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved)
+            @if ((isAdminUser) || (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved))
             {
                 <a href="@Model.GameFilesInfo.osxProgramFile.FileUrl">Download for OS X</a>
             }
@@ -84,6 +85,9 @@
             </div>
         } 
 </div>
+
+
+@Html.Partial("_AdminApproveCondition")
 
 <section class="wrapper footer">
     <h3>100% free indie games</h3>
