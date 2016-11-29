@@ -47,12 +47,17 @@ namespace GameSlam.Web.Controllers
             return View();
         }
 
-        [Authorize(Roles = AccountService.AdminRoleStr)]
-        //[Authorize(Roles = AccountService.AdminRoleStr + "," + AccountService.AuthorizedUserStr)]
+        [Authorize(Roles = AccountService.AdminRoleStr)]                                               
         // GET: Game/Create
-        public ActionResult PendingApprovial()
+        public ActionResult PendingApproval()
         {
-            return View();
+            var result = gameWorkflow.GetAllGamesSmallInfo(Core.Enums.ApprovalStatusEnum.PendingApproval);
+
+            if (result == null)
+            {
+                return HttpNotFound();
+            }
+            return View(result);  
         }
 
 
