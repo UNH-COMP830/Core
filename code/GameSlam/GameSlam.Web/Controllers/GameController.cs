@@ -129,5 +129,13 @@ namespace GameSlam.Web.Controllers
                 return View();
             }
         }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult AdminApproveResponse(int gameId, bool approve)
+        {
+
+            return RedirectToAction("Details", gameId);
+        }
     }
 }

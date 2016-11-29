@@ -1,4 +1,5 @@
 
+using GameSlam.Core.Constants;
 using GameSlam.Core.Enums;
 using GameSlam.Core.Extentions;
 using GameSlam.Core.Models;
@@ -50,21 +51,21 @@ namespace GameSlam.Infrastructure.Migrations
             context.SaveChanges();
 
             
-            if (!context.Roles.Any(r => r.Name == "Admin"))
+            if (!context.Roles.Any(r => r.Name == AppConstants.AdminRoleName))
             {
                 var store = new RoleStore<IdentityRole>(context);
                 var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole { Name = "Admin" };
+                var role = new IdentityRole { Name = AppConstants.AdminRoleName };
 
                 manager.Create(role);
             }
 
 
-            if (!context.Roles.Any(r => r.Name == "AuthorizedUser"))
+            if (!context.Roles.Any(r => r.Name == AppConstants.AuthUserRoleName))
             {
                 var store = new RoleStore<IdentityRole>(context);
                 var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole { Name = "AuthorizedUser" };
+                var role = new IdentityRole { Name = AppConstants.AuthUserRoleName };
 
                 manager.Create(role);
             }
@@ -77,7 +78,7 @@ namespace GameSlam.Infrastructure.Migrations
                 string userPWD = "Welcome1!";                                                                      
 
                 manager.Create(user, userPWD);
-                manager.AddToRole(user.Id, "Admin");
+                manager.AddToRole(user.Id, AppConstants.AdminRoleName);
             }
 
             if (!context.Users.Any(u => u.UserName == "a@a.com"))
@@ -88,7 +89,7 @@ namespace GameSlam.Infrastructure.Migrations
                 string userPWD = "Welcome1!";
 
                 manager.Create(user, userPWD);
-                manager.AddToRole(user.Id, "AuthorizedUser");
+                manager.AddToRole(user.Id, AppConstants.AuthUserRoleName);
             }
         }
 

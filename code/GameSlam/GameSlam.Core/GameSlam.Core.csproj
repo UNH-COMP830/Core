@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\AppConstants.cs" />
     <Compile Include="Contracts\ISample.cs" />
     <Compile Include="Enums\DBEnumClass.cs" />
     <Compile Include="Enums\DbEnums.cs" />

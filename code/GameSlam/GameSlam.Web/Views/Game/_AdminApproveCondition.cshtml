@@ -1,0 +1,70 @@
+﻿@using GameSlam.Core.Constants
+@using GameSlam.Core.Enums
+@model  GameSlam.Core.Models.GameDetailComplete  
+@{ 
+    bool isAdminUser = User.IsInRole(AppConstants.AdminRoleName);
+}
+
+@if (isAdminUser)
+{
+    using (Html.BeginForm(null, null, FormMethod.Post, new { id = "_AntiForgeryForm" }))
+    {
+        @Html.AntiForgeryToken()
+    }
+    
+    <div class="wrapper description">
+        <h3>ADMIN ACTIONS</h3>
+
+        <div class="upload">
+            @Html.ActionLink("Approve","AdminApproveResponse","Game", new {gameId = Model.GameInfo.Id, approve = true}, new { id = "approveLink", @class = ""})
+        </div>
+
+        <div class="upload">
+            @Html.ActionLink("Deny", "AdminApproveResponse", "Game", new { gameId = Model.GameInfo.Id, approve = false }, new { id = "denyLink",  @class = "" })  
+        </div>
+    </div>
+
+   
+        <script type="text/javascript">
+
+            function postResponse(event) {
+                //alert("postResponse called");
+
+                var form = $('#_AntiForgeryForm');
+                var token = $('input[name="__RequestVerificationToken"]', form).val();
+                var dataToSend = {};
+                dataToSend["__RequestVerificationToken"] = token;
+                dataToSend["gameId"] = 1;
+                dataToSend["approve"] = true;
+                var urls = "http://localhost:55762/Game/AdminApproveResponse";//$(this).data('url');
+                $.ajax({
+                    url: urls,
+                    type: "POST",
+                    data: dataToSend,
+                    success: function (result) {
+                        alert("pst resp");
+                    }
+                });
+            }
+
+            function init()
+            {
+               // alert("init called");
+
+                $(function () {
+                    $('a#approveLink').click(function () {
+                        postResponse(this);
+                        return false;
+                    });
+                });
+
+                
+            }
+
+            
+            
+        </script> 
+
+}
+
+
