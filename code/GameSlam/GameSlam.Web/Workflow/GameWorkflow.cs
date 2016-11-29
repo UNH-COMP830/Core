@@ -6,6 +6,7 @@ using GameSlam.Services;
 using GameSlam.Web.Models;
 using Microsoft.AspNet.Identity;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Web;
 
@@ -56,6 +57,26 @@ namespace GameSlam.Web.Workflow
                 };
             }
             return null;
+        }
+
+        public List<GameDetailSmall> GetAllGamesSmallInfo(ApprovalStatusEnum approvalStatusEnum)
+        {
+            List<GameDetailSmall> allGameInfo = new List<GameDetailSmall>();
+
+            List<GameDetail> gameDetails = repository.FindGames(approvalStatusEnum);
+            BlobStorageRepository blogStorage = new BlobStorageRepository(); 
+
+            foreach(GameDetail game in gameDetails)
+            {
+                allGameInfo.Add(new GameDetailSmall()
+                {
+                   Id = game.Id,
+                   Title = game.Title,
+                   CategoryId = game.CategoryId,
+                   Screenshot = blogStorage.GetSingleScreenShot(game.BlogStorageGuidId)
+                });
+            } 
+            return allGameInfo;
         }
 
         private string UploadGameFilesHelper(UploadGameViewModel model)

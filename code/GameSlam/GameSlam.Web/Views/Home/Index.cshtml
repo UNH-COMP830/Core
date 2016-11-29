@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<GameSlam.Core.Models.GameDetailSmall>
+@{
     ViewBag.Title = "GameSlam";
 }
 
@@ -8,17 +9,10 @@
 
 <section class="wrapper games"> 
     <div class="grid"> 
-        <a class="game" href="@Url.Action("Details", "Game", new { id = "1" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
-        <a class="game" href="@Url.Action("Details", "Game", new { id = "2" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
-        <a class="game" href="@Url.Action("Details", "Game", new { id = "3" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
-        <a class="game" href="@Url.Action("Details", "Game", new { id = "4" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
-        <a class="game" href="@Url.Action("Details", "Game", new { id = "5" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
-        <a class="game" href="@Url.Action("Details", "Game", new { id = "6" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
-        <a class="game" href="@Url.Action("Details", "Game", new { id = "7" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
-        <a class="game" href="@Url.Action("Details", "Game", new { id = "8" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
-        <a class="game" href="@Url.Action("Details", "Game", new { id = "9" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
-        <a class="game" href="@Url.Action("Details", "Game", new { id = "10" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
-        <a class="game" href="@Url.Action("Details", "Game", new { id = "11" })" title="Melon Simulator"><div><h3>Melon Simulator</h3></div></a>
+        @foreach (var x in @Model)
+        {        
+            <a class="game" href="@Url.Action("Details", "Game", new { id = @x.Id })" title="@x.Title"><div><h3>@x.Title</h3></div></a>
+        }
     </div>
 </section>
 
