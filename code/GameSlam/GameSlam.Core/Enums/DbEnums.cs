@@ -36,7 +36,7 @@ namespace GameSlam.Core.Enums
         Tutorials = 9
     }
 
-    public enum ApprovalStatusEnum
+    public enum ApprovalStatusEnum : int
     {
         [Description("Waiting For Approval")]
         PendingApproval = 1,
