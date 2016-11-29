@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using GameSlam.Core.Enums;
-using System.ComponentModel.DataAnnotations;         
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GameSlam.Core.Models
 {
@@ -17,13 +17,7 @@ namespace GameSlam.Core.Models
         [Required]
         [StringLength(1024)]
         public String Description { get; set; }
-                                                                    
-        [Required]
-        public Category CategoryId { get; set; }
-
-        [Required]
-        public ApprovalStatus StatusId { get; set; }
-
+                                       
         [Required(ErrorMessage = "Valid time is Required")]
         [DataType(DataType.DateTime)]
         public DateTime CreateTime { get; set; }
@@ -32,8 +26,23 @@ namespace GameSlam.Core.Models
         [StringLength(128)]
         public String BlogStorageGuidId { get; set; }
 
-        // navigation   
-        public virtual ApplicationUser UserId { get; set; }
-                  
+        [Required]
+        [StringLength(128)]
+        public String UserId { get; set; }
+
+        [Required]
+        public int StatusId { get; set; }
+
+        [Required]
+        public int CategoryId { get; set; }
+
+        // navigation     
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser User { get; set; }   
+        [ForeignKey("CategoryId")]
+        public virtual Category Category { get; set; }   
+        [ForeignKey("StatusId")]
+        public virtual ApprovalStatus Status { get; set; }
+
     }
 }

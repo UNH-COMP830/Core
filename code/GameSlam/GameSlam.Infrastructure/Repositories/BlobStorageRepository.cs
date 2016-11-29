@@ -26,7 +26,10 @@ namespace GameSlam.Infrastructure.Repositories
         }
 
         public CloudBlobContainer GetContainer(string guid)
-        {
+        {                   
+            if (string.IsNullOrEmpty(guid))
+                return null;
+
             // Create the blob client.
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
 

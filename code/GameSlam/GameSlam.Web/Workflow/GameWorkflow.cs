@@ -29,16 +29,33 @@ namespace GameSlam.Web.Workflow
 
             GameDetail newGame = new GameDetail()
             {
-                CategoryId = repository.FindCategory(model.CategoryId),
+                CategoryId = (int)model.CategoryId,//repository.FindCategory(model.CategoryId),
                 CreateTime = DateTime.Now,
-                StatusId = repository.FindApprovalStatus(ApprovalStatusEnum.PendingApproval),
+                StatusId = (int)ApprovalStatusEnum.PendingApproval,//repository.FindApprovalStatus(ApprovalStatusEnum.PendingApproval),
                 Description = model.Description,
                 Title = model.Title,
                 BlogStorageGuidId = UploadGameFilesHelper(model),
-                UserId = repository.GetUser(System.Web.HttpContext.Current.User.Identity.GetUserId())
+                UserId = System.Web.HttpContext.Current.User.Identity.GetUserId()//repository.GetUser(System.Web.HttpContext.Current.User.Identity.GetUserId())
             };
             
             return repository.AddGame(newGame).Id;
+        }
+
+        public GameDetailComplete GetGame(int id)
+        {
+
+            GameDetail gameDetail = repository.GetGame(id);
+            BlobStorageRepository blogStorage = new BlobStorageRepository();
+
+            if (gameDetail != null)
+            {
+                return new GameDetailComplete()
+                {
+                    GameInfo = gameDetail,
+                    GameFilesInfo = blogStorage.GetAllBlogItems(gameDetail.BlogStorageGuidId)
+                };
+            }
+            return null;
         }
 
         private string UploadGameFilesHelper(UploadGameViewModel model)

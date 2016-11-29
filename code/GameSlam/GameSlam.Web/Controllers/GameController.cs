@@ -2,6 +2,7 @@
 using GameSlam.Web.Models;
 using GameSlam.Web.Workflow;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -22,9 +23,21 @@ namespace GameSlam.Web.Controllers
         }
 
         // GET: Game/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var result = gameWorkflow.GetGame(id.Value);
+
+            if (result == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(result);
         }
 
         [Authorize(Roles = AccountService.AuthorizedUserStr)]
