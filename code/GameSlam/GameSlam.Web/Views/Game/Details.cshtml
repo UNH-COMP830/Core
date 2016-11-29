@@ -16,47 +16,50 @@
     <p>@Model.GameInfo.Description</p>
 </div>
 
-     <div class="wrapper description">
-        <h3>SCREENSHOTS</h3>
-        <section class="wrapper games">
-            <div class="grid">
-                @for (var i = 0; i < Model.GameFilesInfo.Screenshots.Count; i++)
-                {
-                    if (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved)
-                    {
-                        var item = Model.GameFilesInfo.Screenshots[i];
-                        <a class="game" href="@item.FileUrl"><div><h3>Screenshot #@i</h3></div></a>
-                    }
-                    else
-                    {
-                        <a class="game" href=""><div><h3>Screenshot #@i</h3></div></a>
-                    }
-                }
-            </div>
-        </section>
-    </div>
-
-
-
-    <div class="wrapper description">
-        <h3>DOWNLOADS</h3>
-
-        <div class="upload">
-            @if ((Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved) &&
-                (@Model.GameFilesInfo.windowsProgramFile != null))
+<div class="wrapper description">
+    <h3>SCREENSHOTS</h3>
+    <section class="wrapper games">
+        <div class="grid">
+            @for (var i = 0; i < Model.GameFilesInfo.Screenshots.Count; i++)
             {
+                if (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved)
+                {
+                    var item = Model.GameFilesInfo.Screenshots[i];
+                    <a class="game" href="@item.FileUrl"><div><h3>Screenshot #@i</h3></div></a>
+                }
+                else
+                {
+                    <a class="game" href=""><div><h3>Screenshot #@i</h3></div></a>
+                }
+            }
+        </div>
+    </section>
+</div>
 
+
+
+<div class="wrapper description">
+    <h3>DOWNLOADS</h3>
+
+        @if (@Model.GameFilesInfo.windowsProgramFile != null)
+        {
+            <div class="upload">
+            @if (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved)
+            {     
                 <a href="@Model.GameFilesInfo.windowsProgramFile.FileUrl">Download for Windows</a>
             }
             else
             {
                 <a href="#">Download for Windows</a>
             }
-        </div>
+            </div>
+        }
+    
 
-        <div class="upload">
-            @if ((Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved) &&
-            (@Model.GameFilesInfo.linuxProgramFile != null))
+        @if (@Model.GameFilesInfo.linuxProgramFile != null)
+        {
+            <div class="upload">
+            @if (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved)
             {
                 <a href="@Model.GameFilesInfo.linuxProgramFile.FileUrl">Download for Linux</a>
             }
@@ -64,11 +67,13 @@
             {
                 <a href="#">Download for Linux</a>
             }
-        </div>
-
-        <div class="upload">
-            @if ((Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved) &&
-            (@Model.GameFilesInfo.osxProgramFile != null))
+            </div>
+        }
+    
+        @if (@Model.GameFilesInfo.osxProgramFile != null)
+        {
+            <div class="upload">
+            @if (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved)
             {
                 <a href="@Model.GameFilesInfo.osxProgramFile.FileUrl">Download for OS X</a>
             }
@@ -76,12 +81,11 @@
             {
                 <a href="#">Download for OS X</a>
             }
+            </div>
+        } 
+</div>
 
-        </div>
-
-    </div>
-
-    <section class="wrapper footer">
-        <h3>100% free indie games</h3>
-    </section>
+<section class="wrapper footer">
+    <h3>100% free indie games</h3>
+</section>
 
