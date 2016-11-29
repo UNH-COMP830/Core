@@ -81,6 +81,21 @@ namespace GameSlam.Infrastructure.Repositories
             }
         }
 
+        public string GetSingleScreenShot(string guid)
+        {
+            DownloadFileDetails allFilesDetails = GetAllBlogItems(GetContainer(guid));
+
+            if (allFilesDetails != null)
+            {
+                if(allFilesDetails.Screenshots.Count > 0)
+                {
+                    return allFilesDetails.Screenshots[0].FileUrl;
+                }
+            }
+
+            return string.Empty;
+        }
+
         /// <summary>
         /// Generates a new Guid string
         /// </summary>
@@ -177,15 +192,7 @@ namespace GameSlam.Infrastructure.Repositories
                     };
 
                 }
-                //else if (item.GetType() == typeof(CloudBlobDirectory))
-                //{
-                //    CloudBlobDirectory directory = (CloudBlobDirectory)item;
-
-                //    storageDetail = new FileStorageDetail()
-                //    {   
-                //        FileUrl = directory.Uri.ToString()
-                //    };
-                //}
+               
 
                 if(storageDetail != null)
                 {

@@ -137,6 +137,10 @@ namespace GameSlam.Infrastructure.Repositories
                 return db.Users.Where(m => m.Id == userId).First();
             }
         }
-            
+
+        public List<GameDetail> FindGames(ApprovalStatusEnum approvalStatusEnum)
+        {
+            return db.GameDetails.Where(m => m.StatusId == (int)approvalStatusEnum).ToList();
+        }
     }
 }

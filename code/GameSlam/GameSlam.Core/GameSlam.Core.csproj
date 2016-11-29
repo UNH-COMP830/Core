@@ -68,6 +68,7 @@
     <Compile Include="Models\DownloadFileDetails.cs" />
     <Compile Include="Models\FileStorageDetail.cs" />
     <Compile Include="Models\GameDetailComplete.cs" />
+    <Compile Include="Models\GameDetailSmall.cs" />
     <Compile Include="Models\PublicResponse.cs" />
     <Compile Include="Models\GameDetail.cs" />
     <Compile Include="Models\UploadFileDetail.cs" />
