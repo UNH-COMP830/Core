@@ -43,13 +43,13 @@ namespace GameSlam.Web.Workflow
         }
 
         public GameDetailComplete GetGame(int id)
-        {
-
+        {      
             GameDetail gameDetail = repository.GetGame(id);
             BlobStorageRepository blogStorage = new BlobStorageRepository();
 
             if (gameDetail != null)
             {
+                
                 return new GameDetailComplete()
                 {
                     GameInfo = gameDetail,
@@ -97,6 +97,16 @@ namespace GameSlam.Web.Workflow
 
             BlobStorageRepository blogStorage = new BlobStorageRepository();
             return blogStorage.AddNewGameFiles(uploadDetail);
+        }
+
+        internal AdminApprovalResp DenyGame(int gameId)
+        {
+            return repository.DenyGame(gameId);
+        }
+
+        internal AdminApprovalResp ApproveGame(int gameId)
+        {
+            return repository.ApproveGame(gameId);
         }
 
         private UploadFileDetail ConvertHttpFileToDomainSpecific(HttpPostedFileBase uploadFileInfo)

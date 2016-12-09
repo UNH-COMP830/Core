@@ -11,7 +11,7 @@ namespace GameSlam.Infrastructure.Repositories
 {
     public class Repository : IRepository
     {
-        ApplicationDbContext db;
+        ApplicationDbContext db; 
         
 
         public Repository(ApplicationDbContext db)
@@ -141,6 +141,64 @@ namespace GameSlam.Infrastructure.Repositories
         public List<GameDetail> FindGames(ApprovalStatusEnum approvalStatusEnum)
         {
             return db.GameDetails.Where(m => m.StatusId == (int)approvalStatusEnum).ToList();
+        }
+
+        public AdminApprovalResp DenyGame(int gameId)
+        {
+            AdminApprovalResp resp = new AdminApprovalResp();
+
+            var game = db.GameDetails.Where(g => g.Id == gameId).First();
+
+            if(game == null)
+            {
+                resp.Status = false;
+                resp.Message = "Could not locate game";
+            }
+            else if ( game.StatusId == (int)ApprovalStatusEnum.PendingApproval)
+            {
+
+                game.StatusId = (int)ApprovalStatusEnum.Declined;
+                db.SaveChanges();
+
+                resp.Status = true;
+                resp.Message = "Game Status updated.";
+            }
+            else
+            {         
+                resp.Status = false;
+                resp.Message = "Invalid transition State.";
+            }
+
+            return resp;
+        }
+
+        public AdminApprovalResp ApproveGame(int gameId)
+        {
+            AdminApprovalResp resp = new AdminApprovalResp();
+
+            var game = db.GameDetails.Where(g => g.Id == gameId).First();
+
+            if (game == null)
+            {
+                resp.Status = false;
+                resp.Message = "Could not locate game";
+            }
+            else if (game.StatusId == (int)ApprovalStatusEnum.PendingApproval)
+            {
+
+                game.StatusId = (int)ApprovalStatusEnum.Approved;
+                db.SaveChanges();
+
+                resp.Status = true;
+                resp.Message = "Game Status updated.";
+            }
+            else
+            {
+                resp.Status = false;
+                resp.Message = "Invalid transition State.";
+            }
+
+            return resp;
         }
     }
 }
