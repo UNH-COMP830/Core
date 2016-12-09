@@ -65,6 +65,7 @@
     <Compile Include="Enums\DbEnums.cs" />
     <Compile Include="Extentions\EnumExtention.cs" />
     <Compile Include="Extentions\FileExtensionsAttribute.cs" />
+    <Compile Include="Models\AdminApprovalResp.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\DownloadFileDetails.cs" />
     <Compile Include="Models\FileStorageDetail.cs" />

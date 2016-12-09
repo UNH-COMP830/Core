@@ -11,7 +11,7 @@
     <div class="grid"> 
         @foreach (var x in @Model)
         {        
-            <a class="game" href="@Url.Action("Details", "Game", new { id = @x.Id })" title="@x.Title"><div><h3>@x.Title</h3></div></a>
+            <a href="@Url.Action("Details", "Game", new { id = @x.Id })" title="@x.Title"><div><img src="@x.Screenshot" alt="@x.Title" class="game" ></div></a>
         }
     </div>
 </section>

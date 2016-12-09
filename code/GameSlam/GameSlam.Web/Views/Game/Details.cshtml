@@ -11,7 +11,11 @@
 <div class="wrapper description">
     @if (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.PendingApproval)
     {
-        <p style="text-align: center; color:crimson; font-weight: 300">Game Is Under Review!</p>
+        <p style="text-align: center; color:crimson; font-weight: 300; font-size:150%">Game Is Under Review!</p>
+    }
+    else if (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Declined)
+    {
+        <p style="text-align: center; color:crimson; font-weight: 300; font-size:150%">Game was Declined.</p>
     }
     <h3> @Html.Raw(Model.GameInfo.Title)</h3>
     <p>@Model.GameInfo.Description</p>
@@ -20,13 +24,30 @@
 <div class="wrapper description">
     <h3>SCREENSHOTS</h3>
     <section class="wrapper games">
-        <div class="grid">
+        <div>
             @for (var i = 0; i < Model.GameFilesInfo.Screenshots.Count; i++)
-            {
-                if ((isAdminUser) || (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved))
                 {
-                    var item = Model.GameFilesInfo.Screenshots[i];
-                    <a class="game" href="@item.FileUrl"><div><h3>Screenshot #@i</h3></div></a>
+                    if ((isAdminUser) || (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved))
+                    {
+                        var item = Model.GameFilesInfo.Screenshots[i];
+                        var modalName = "myModal"+i;
+                        var imgName = "myImg"+i;
+                        var imgNameNew = "img"+i;
+                        var imageCaption = "caption" + i;
+
+                        <img id="@imgName" src="@item.FileUrl" alt="Screenshot #@i" class="gameImg">
+                        <!-- The Modal -->
+                        <div id="@modalName" class="modal">
+
+                            <!-- The Close Button -->
+                            <span class="closeimg" onclick="document.getElementById('@modalName').style.display='none'">&times;</span>
+
+                            <!-- Modal Content (The Image) -->
+                            <img class="modal-content" id="@imgNameNew">
+
+                            <!-- Modal Caption (Image Text) -->
+                            <div id="@imageCaption" class="caption"></div>
+                        </div>
                 }
                 else
                 {
@@ -42,24 +63,24 @@
 <div class="wrapper description">
     <h3>DOWNLOADS</h3>
 
-        @if (@Model.GameFilesInfo.windowsProgramFile != null)
-        {
-            <div class="upload">
+    @if (@Model.GameFilesInfo.windowsProgramFile != null)
+    {
+        <div class="upload">
             @if ((isAdminUser) || (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved))
-            {     
+            {
                 <a href="@Model.GameFilesInfo.windowsProgramFile.FileUrl">Download for Windows</a>
             }
             else
             {
                 <a href="#">Download for Windows</a>
             }
-            </div>
-        }
-    
+        </div>
+    }
 
-        @if (@Model.GameFilesInfo.linuxProgramFile != null)
-        {
-            <div class="upload">
+
+    @if (@Model.GameFilesInfo.linuxProgramFile != null)
+    {
+        <div class="upload">
             @if ((isAdminUser) || (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved))
             {
                 <a href="@Model.GameFilesInfo.linuxProgramFile.FileUrl">Download for Linux</a>
@@ -68,12 +89,12 @@
             {
                 <a href="#">Download for Linux</a>
             }
-            </div>
-        }
-    
-        @if (@Model.GameFilesInfo.osxProgramFile != null)
-        {
-            <div class="upload">
+        </div>
+    }
+
+    @if (@Model.GameFilesInfo.osxProgramFile != null)
+    {
+        <div class="upload">
             @if ((isAdminUser) || (Model.GameInfo.StatusId == (int)ApprovalStatusEnum.Approved))
             {
                 <a href="@Model.GameFilesInfo.osxProgramFile.FileUrl">Download for OS X</a>
@@ -82,8 +103,8 @@
             {
                 <a href="#">Download for OS X</a>
             }
-            </div>
-        } 
+        </div>
+    }
 </div>
 
 

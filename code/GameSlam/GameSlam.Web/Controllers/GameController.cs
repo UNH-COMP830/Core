@@ -1,9 +1,11 @@
-﻿using GameSlam.Services.Services;
+﻿using GameSlam.Core.Models;
+using GameSlam.Services.Services;
 using GameSlam.Web.Models;
 using GameSlam.Web.Workflow;
 using System;
-using System.Net;               
+using System.Net;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace GameSlam.Web.Controllers
 {
@@ -130,12 +132,43 @@ namespace GameSlam.Web.Controllers
             }
         }
 
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [AcceptVerbs(HttpVerbs.Post)] 
+        [ValidateAntiForgeryToken]
         public ActionResult AdminApproveResponse(int gameId, bool approve)
         {
+            //if(string.IsNullOrEmpty(command))
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            return RedirectToAction("Details", gameId);
+            AdminApprovalResp responseMsg = null;
+
+            RouteCollection routes = RouteTable.Routes;
+
+            using (routes.GetWriteLock())
+            {
+                if (approve)
+                    responseMsg = gameWorkflow.ApproveGame(gameId);
+                else
+                    responseMsg = gameWorkflow.DenyGame(gameId);
+            }
+
+            return Json(responseMsg);
+
+            //return Content("Hi Guys,");
+
+
+            //var res = new OperationStatus();
+            //res.Status = true;
+            //res.Message = "Successfully Added";
+            //return Json(res);
+
+            //return Json(new
+            //{
+            //    Status = true,
+            //    Message = "Succesfully saved"
+            //});
+
+            //return RedirectToAction("Details", new { id = gameId });
+            //return Json("chamara", JsonRequestBehavior.AllowGet);
         }
     }
 }

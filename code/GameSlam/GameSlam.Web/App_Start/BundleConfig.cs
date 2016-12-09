@@ -30,7 +30,7 @@ namespace GameSlam.Web
                                 
             bundles.Add(new StyleBundle("~/Content/gameStyle").Include(
                       "~/Assets/css/reset.css",
-                      "~/Assets/css/css/animate.css",
+                      "~/Assets/css/animate.css",
                       "~/Assets/css/style.css"));
 
             bundles.Add(new StyleBundle("~/Content/Images").Include(

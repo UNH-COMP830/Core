@@ -19,5 +19,7 @@ namespace GameSlam.Infrastructure.Repositories
         Category FindCategory(CategoryEnum cat);
         ApplicationUser GetUser(String userId);
         List<GameDetail> FindGames(ApprovalStatusEnum approvalStatusEnum);
+        AdminApprovalResp DenyGame(int gameId);
+        AdminApprovalResp ApproveGame(int gameId);
     }
 }
