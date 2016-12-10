@@ -5,7 +5,7 @@
 
 <div class="wrapper search">
     <input id="searchGame" type="text" name="name" value="" placeholder="Search for games">
-    <div id="searchQueryParent">Search result for: <span id="searchQuery"></span></div>
+    <div id="searchQueryParent" style="display: none;">Search result for: <span id="searchQuery"></span></div>
 </div>
 
 <section class="wrapper games"> 
@@ -71,7 +71,9 @@
         }
         else
         {
-            foundModel = jsonModel;
+            foundModel = jsonModel; 
+            searchQuery.text("");
+            searchQueryParent.hide();
         }
 
         //remove all results
@@ -83,7 +85,6 @@
             if(value.Title.toLowerCase().indexOf(searchVal) >= 0)
             {
                 var toAdd = "<a class='game' title='" + value.Title + "' href='/Game/Details/"+value.Id + "' style='background-image:url("+ value.Screenshot + ");background-size:cover; background-repeat: no-repeat;');'><div><h3>" + value.Title + "</h3></div></a>";
-                
                 allGames.append(toAdd);
             }
         });
