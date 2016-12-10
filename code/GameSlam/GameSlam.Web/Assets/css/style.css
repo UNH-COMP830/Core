@@ -326,7 +326,7 @@ body {
 
 /* grid */
 
-.games .gameImg, .games .game {
+.games .gameImg {
   margin: 10px;
   width: 280px;
   height: 280px;
@@ -338,9 +338,54 @@ body {
   /*z-index: 2147483647;*/
 }
 
-.games .gameImg:hover, .games .game {
+.games .gameImg:hover {
   opacity: 0.7;
 }
+
+.games {
+
+}
+
+.games .game {
+  margin: 10px;
+  width: 280px;
+  height: 280px;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0.3;
+  transition: 0.25s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  text-align: center;
+  overflow: hidden;
+}
+
+.games .game:hover {
+  opacity: .7;
+}
+
+.games .game:hover h3 {
+  visibility: visible;
+}
+
+.games .game h3 {
+  visibility: hidden;
+  text-decoration: underline;
+  color: white;
+  font-size:150%;
+  font-weight:bold;  
+  z-index: 1000;
+}
+
+/*.games .game img {
+  position: absolute;
+  height: 100%;
+  min-width: 280px;
+  min-height: 280px;
+  z-index: 0;
+}*/
+
                 
 
 /* upload */

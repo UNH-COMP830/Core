@@ -22,96 +22,93 @@
         <div class="upload">
             @Html.ActionLink("Deny", "AdminApproveResponse", "Game", null, new { id = "denyLink", @class = "" })  
         </div>
-    </div>
-
-   
-        <script type="text/javascript">
-            function adminApproval(isApproved)
-            {
-                var form = $('#_AntiForgeryForm');
-                var token = $('input[name="__RequestVerificationToken"]', form).val();
-                var dataToSend = {};
-                dataToSend["__RequestVerificationToken"] = token;
-                dataToSend["gameId"] = @Model.GameInfo.Id;
-                dataToSend["approve"] = isApproved;
-                var urls = "/Game/AdminApproveResponse";//$(this).data('url');
-                $.ajax({
-                    url: urls,
-                    type: "POST",
-                    data: dataToSend,
-                    success: function (result) {
-                        alert(result);
-                        alert("pst resp");
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                        alert("Status: " + textStatus); 
-                        alert("Error: " + errorThrown); 
-                    }
-                });
-                return false;
-            }
-
-           
-
-            function init()
-            {
-               // alert("init called");
-
-                //$(function () {
-                //    $('a#approveLink').click(function () {
-                //        postResponse(this);
-                //        return false;
-                //    });
-                //});
-
-                $('a#approveLink').click(function () {
-                    adminApproval(true);
-                    return false;
-                });   
-                $('a#denyLink').click(function () {
-                    adminApproval(false);
-                    return false;
-                });
-
-
-                alert("init img called");
-
-                // Get the modal
-                //var modal = document.getElementById('myModal');
-                var modals = document.getElementsByClassName("modal");
-
-                for(var i = 0; i < modals.length; i++)
-                {
-                    var modal =  modals[i];
-                    var modalId = modal.id;
-                    // Get the image and insert it inside the modal - use its "alt" text as a caption
-                    var img = document.getElementById('myImg' + i);
-                    var modalImg = document.getElementById("img" + i);
-                    var captionText = document.getElementById("caption"+i);
-                    img.onclick = function(){
-                        modal.style.display = "block";
-                        modalImg.src = this.src;
-                        captionText.innerHTML = this.alt;
-                    }
-                }
-
-
-                
-
-                // Get the <span> element that closes the modal
-                var span = document.getElementsByClassName("close")[0];
-
-                // When the user clicks on <span> (x), close the modal
-                span.onclick = function() { 
-                    modal.style.display = "none";
-                }
-
-            }
-
-            
-            
-        </script> 
-
+    </div>  
 }
 
+<script type="text/javascript">
+    function adminApproval(isApproved)
+    {
+        var form = $('#_AntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
+        var dataToSend = {};
+        dataToSend["__RequestVerificationToken"] = token;
+        dataToSend["gameId"] = @Model.GameInfo.Id;
+        dataToSend["approve"] = isApproved;
+        var urls = "/Game/AdminApproveResponse";//$(this).data('url');
+        $.ajax({
+            url: urls,
+            type: "POST",
+            data: dataToSend,
+            success: function (result) {
+                alert(result);
+                alert("pst resp");
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus);
+                alert("Error: " + errorThrown);
+            }
+        });
+        return false;
+    }
+
+
+
+    function init()
+    {
+        // alert("init called");
+
+        //$(function () {
+        //    $('a#approveLink').click(function () {
+        //        postResponse(this);
+        //        return false;
+        //    });
+        //});
+
+        $('a#approveLink').click(function () {
+            adminApproval(true);
+            return false;
+        });
+        $('a#denyLink').click(function () {
+            adminApproval(false);
+            return false;
+        });
+
+
+        //alert("init img called");
+
+        // Get the modal
+        //var modal = document.getElementById('myModal');
+        var modals = document.getElementsByClassName("modal");
+
+        for(var i = 0; i < modals.length; i++)
+        {
+            var modal =  modals[i];
+            var modalId = modal.id;
+            // Get the image and insert it inside the modal - use its "alt" text as a caption
+            var img = document.getElementById('myImg' + i);
+            var modalImg = document.getElementById("img" + i);
+            var captionText = document.getElementById("caption"+i);
+            img.onclick = function(){
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                captionText.innerHTML = this.alt;
+            }
+        }
+
+
+
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+    }
+
+
+
+</script> 
 

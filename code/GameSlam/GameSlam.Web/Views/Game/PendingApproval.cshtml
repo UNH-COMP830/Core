@@ -10,8 +10,8 @@
 <section class="wrapper games">
     <div class="grid">
         @foreach (var x in @Model)
-        {
-            <a class="game" href="@Url.Action("Details", "Game", new { id = @x.Id })" title="@x.Title"><div><h3>@x.Title</h3></div></a>
+        {                                                                                                                                
+            <a class="game" title="@x.Title" href="@Url.Action("Details", "Game", new { id = @x.Id })" style="background-image:url('@x.Screenshot'); background-size:cover; background-repeat: no-repeat;"><div><h3>@x.Title</h3></div></a>
         }
     </div>
 </section>
