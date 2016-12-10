@@ -4,11 +4,12 @@
 }
 
 <div class="wrapper search">
-    <input type="text" name="name" value="" placeholder="Search for games">
+    <input id="searchGame" type="text" name="name" value="" placeholder="Search for games">
+    <div id="searchQueryParent" style="display: none;">Search result for: <span id="searchQuery"></span></div>
 </div>
 
 <section class="wrapper games"> 
-    <div class="grid"> 
+    <div class="grid" id="allGames"> 
         @foreach (var x in @Model)
         {  
             <a class="game" title="@x.Title"  href="@Url.Action("Details", "Game", new { id = @x.Id })" style="background-image:url('@x.Screenshot'); background-size:cover; background-repeat: no-repeat;"><div><h3>@x.Title</h3></div></a>
@@ -19,3 +20,75 @@
 <section class="wrapper footer">
     <h3>100% free indie games</h3>
 </section>
+
+<script language="javascript" type="text/javascript">
+    var jsonModel = @Html.Raw(Json.Encode(Model));;
+
+    function init()
+    {
+
+        var searchQueryParent = $("#searchQueryParent");
+        searchQueryParent.hide();
+
+        $('#searchGame').bind("enterKey", function (e) {
+            //do stuff here
+            searchClicked();
+        });
+
+        $('#searchGame').keyup(function (e) {
+            if (e.keyCode == 13) {
+                $(this).trigger("enterKey");
+            }
+        });
+    }
+
+
+    function searchClicked()
+    {
+        var search = $("#searchGame");
+        var searchQuery = $("#searchQuery");
+        var searchQueryParent = $("#searchQueryParent");
+        var allGames = $("#allGames");
+
+        var searchVal = search.val();
+        var foundModel = [];
+
+        if(searchVal.length > 0)
+        {
+            searchVal = searchVal.toLowerCase();
+
+            $.each( jsonModel, function( key, value )
+            {
+                if(value.Title.toLowerCase().indexOf(searchVal) >= 0)
+                {
+                    foundModel.push(value);
+                }
+            });
+
+            searchQuery.text(searchVal);
+            searchQueryParent.show();
+
+        }
+        else
+        {
+            foundModel = jsonModel; 
+            searchQuery.text("");
+            searchQueryParent.hide();
+        }
+
+        //remove all results
+        allGames.empty();
+
+        // re-add
+        $.each( foundModel, function( key, value )
+        {
+            if(value.Title.toLowerCase().indexOf(searchVal) >= 0)
+            {
+                var toAdd = "<a class='game' title='" + value.Title + "' href='/Game/Details/"+value.Id + "' style='background-image:url("+ value.Screenshot + ");background-size:cover; background-repeat: no-repeat;');'><div><h3>" + value.Title + "</h3></div></a>";
+                allGames.append(toAdd);
+            }
+        });
+
+
+    }
+</script>
