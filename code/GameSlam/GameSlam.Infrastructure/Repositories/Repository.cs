@@ -3,9 +3,7 @@ using GameSlam.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq;              
 
 namespace GameSlam.Infrastructure.Repositories
 {
@@ -20,33 +18,13 @@ namespace GameSlam.Infrastructure.Repositories
         }
 
         ~Repository()
-        {
-        //    if (disposing)
-        //    {
-        //        if (_userManager != null)
-        //        {
-        //            _userManager.Dispose();
-        //            _userManager = null;
-        //        }
-
-        //        if (_signInManager != null)
-        //        {
-        //            _signInManager.Dispose();
-        //            _signInManager = null;
-        //        }
-        //    }
-
-        //    base.Dispose(disposing);
+        {  
         }
 
         public IQueryable<GameDetail> GetAllGames()
         {
             return db.GameDetails;
-        }
-        public IQueryable<PublicResponse> GetAllGameResponses()
-        {
-            return db.PublicResponse;
-        }
+        } 
         public IQueryable<ApplicationUser> GetAllUsers()
         {
             return db.Users;
@@ -54,7 +32,6 @@ namespace GameSlam.Infrastructure.Repositories
         public GameDetail GetGame(int gameId)
         {
             return db.GameDetails.Include("User").Include("Category").Include("Status").FirstOrDefault(x => x.Id == gameId);
-            //return db.GameDetails.FirstOrDefault(x => x.Id == gameId);
         }
 
         public GameDetail AddGame(GameDetail newGame)
@@ -72,22 +49,7 @@ namespace GameSlam.Infrastructure.Repositories
 
                 // this needs to be added in the same context as the usermanager
                 newRow.UserId = newGame.UserId;
-
-                //if (newGame.StatusId != null)
-                //{
-                //    db.ApprovalStatuses.Attach(newGame.StatusId);
-                //    db.Entry(newGame.StatusId).State = System.Data.Entity.EntityState.Unchanged;
-                //}
-                //if (newGame.CategoryId != null)
-                //{
-                //    db.Categories.Attach(newGame.CategoryId);
-                //    db.Entry(newGame.CategoryId).State = System.Data.Entity.EntityState.Unchanged;
-                //}
-                //if (newGame.UserId != null)
-                //{
-                //    db.Users.Attach(newGame.UserId);
-                //    db.Entry(newGame.UserId).State = System.Data.Entity.EntityState.Unchanged;
-                //}
+                                                  
                 db.GameDetails.Add(newRow);
                 db.SaveChanges();
                 newGame.Id = newRow.Id;
@@ -105,9 +67,7 @@ namespace GameSlam.Infrastructure.Repositories
                     }
                 }
                 throw;
-            }
-
-
+            } 
 
             return newGame;
         }

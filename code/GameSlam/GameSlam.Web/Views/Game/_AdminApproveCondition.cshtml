@@ -34,14 +34,21 @@
         dataToSend["__RequestVerificationToken"] = token;
         dataToSend["gameId"] = @Model.GameInfo.Id;
         dataToSend["approve"] = isApproved;
-        var urls = "/Game/AdminApproveResponse";//$(this).data('url');
+        var urls = "/Game/AdminApproveResponse";
         $.ajax({
             url: urls,
             type: "POST",
             data: dataToSend,
             success: function (result) {
-                alert(result);
-                alert("pst resp");
+
+                if(result.Status)
+                {
+                    window.location.href="@(Url.Action("PendingApproval", "Game"))";
+                }
+                else
+                {      
+                    alert(result.Message);
+                }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 alert("Status: " + textStatus);
@@ -55,14 +62,6 @@
 
     function init()
     {
-        // alert("init called");
-
-        //$(function () {
-        //    $('a#approveLink').click(function () {
-        //        postResponse(this);
-        //        return false;
-        //    });
-        //});
 
         $('a#approveLink').click(function () {
             adminApproval(true);
@@ -73,11 +72,7 @@
             return false;
         });
 
-
-        //alert("init img called");
-
         // Get the modal
-        //var modal = document.getElementById('myModal');
         var modals = document.getElementsByClassName("modal");
 
         for(var i = 0; i < modals.length; i++)
@@ -95,9 +90,6 @@
             }
         }
 
-
-
-
         // Get the <span> element that closes the modal
         var span = document.getElementsByClassName("close")[0];
 
@@ -107,8 +99,5 @@
         }
 
     }
-
-
-
 </script> 
 

@@ -10,8 +10,7 @@ namespace GameSlam.Infrastructure.Repositories
 {
     public interface IRepository
     {
-        IQueryable<GameDetail> GetAllGames();
-        IQueryable<PublicResponse> GetAllGameResponses();
+        IQueryable<GameDetail> GetAllGames();               
         IQueryable<ApplicationUser> GetAllUsers();
         GameDetail GetGame(int gameId);
         GameDetail AddGame(GameDetail newGame);

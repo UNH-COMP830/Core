@@ -29,8 +29,7 @@ namespace GameSlam.Infrastructure.Repositories
             return new ApplicationDbContext();
         }
 
-        public DbSet<GameDetail> GameDetails { get; set; }
-        public DbSet<PublicResponse> PublicResponse { get; set; }
+        public DbSet<GameDetail> GameDetails { get; set; }          
         public DbSet<Category> Categories { get; set; }
         public DbSet<ApprovalStatus> ApprovalStatuses { get; set; }
 
