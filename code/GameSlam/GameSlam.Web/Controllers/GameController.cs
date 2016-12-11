@@ -20,6 +20,8 @@ namespace GameSlam.Web.Controllers
         // GET: Game
         public ActionResult Index()
         {
+            ViewBag.Title = "GameSlam";
+            ViewBag.HeaderTitle = "";
             return View();
         }
 
@@ -41,8 +43,7 @@ namespace GameSlam.Web.Controllers
             return View(result);
         }
 
-        [Authorize(Roles = AccountService.AuthorizedUserStr)]
-        //[Authorize(Roles = AccountService.AdminRoleStr + "," + AccountService.AuthorizedUserStr)]
+        [Authorize(Roles = AccountService.AuthorizedUserStr)]                                          
         // GET: Game/Create
         public ActionResult Create()
         {
@@ -59,7 +60,10 @@ namespace GameSlam.Web.Controllers
             {
                 return HttpNotFound();
             }
-            return View(result);  
+            ViewBag.Title = "Pending Approval";
+            ViewBag.HeaderTitle = "Pending Approval";
+
+            return View("../Home/Index", result);  
         }
 
 
@@ -87,58 +91,11 @@ namespace GameSlam.Web.Controllers
 
             return View();
         }
-
-        // GET: Game/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Game/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Game/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Game/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
+         
         [AcceptVerbs(HttpVerbs.Post)] 
         [ValidateAntiForgeryToken]
         public ActionResult AdminApproveResponse(int gameId, bool approve)
-        {
-            //if(string.IsNullOrEmpty(command))
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
+        {     
             AdminApprovalResp responseMsg = null;
 
             RouteCollection routes = RouteTable.Routes;
@@ -152,23 +109,6 @@ namespace GameSlam.Web.Controllers
             }
 
             return Json(responseMsg);
-
-            //return Content("Hi Guys,");
-
-
-            //var res = new OperationStatus();
-            //res.Status = true;
-            //res.Message = "Successfully Added";
-            //return Json(res);
-
-            //return Json(new
-            //{
-            //    Status = true,
-            //    Message = "Succesfully saved"
-            //});
-
-            //return RedirectToAction("Details", new { id = gameId });
-            //return Json("chamara", JsonRequestBehavior.AllowGet);
         }
     }
 }

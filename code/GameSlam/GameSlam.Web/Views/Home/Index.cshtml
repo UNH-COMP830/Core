@@ -1,17 +1,21 @@
 ﻿@model List<GameSlam.Core.Models.GameDetailSmall>
 @{
-    ViewBag.Title = "GameSlam";
+//ViewBag.Title = "GameSlam";
 }
 
 <div class="wrapper search">
+    @if (!String.IsNullOrEmpty(ViewBag.HeaderTitle))
+    {
+        <div style="color:red; font-size:200%;">@ViewBag.HeaderTitle</div>
+    }
     <input id="searchGame" type="text" name="name" value="" placeholder="Search for games">
     <div id="searchQueryParent" style="display: none;">Search result for: <span id="searchQuery"></span></div>
 </div>
 
-<section class="wrapper games"> 
-    <div class="grid" id="allGames"> 
+<section class="wrapper games">
+    <div class="grid" id="allGames">
         @foreach (var x in @Model)
-        {  
+        {
             <a class="game" title="@x.Title"  href="@Url.Action("Details", "Game", new { id = @x.Id })" style="background-image:url('@x.Screenshot'); background-size:cover; background-repeat: no-repeat;"><div><h3>@x.Title</h3></div></a>
         }
     </div>
@@ -71,7 +75,7 @@
         }
         else
         {
-            foundModel = jsonModel; 
+            foundModel = jsonModel;
             searchQuery.text("");
             searchQueryParent.hide();
         }
@@ -88,7 +92,5 @@
                 allGames.append(toAdd);
             }
         });
-
-
     }
 </script>
